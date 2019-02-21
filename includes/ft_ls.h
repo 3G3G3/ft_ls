@@ -13,3 +13,4 @@ typedef	struct		s_filedata
 	t_stat			*stats;
 }					t_filedata;
 
+void		ft_putfldt(t_filedata *fldt);

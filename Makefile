@@ -10,8 +10,10 @@ DEBUG_FLAGS =
 CFLAGS = -Wall -Werror -Wextra -I $(INC_PATH) -I $(LIBFT_PATH) -g3
 
 LIBFT = $(LIBFT_PATH)libft.a
-SRCS = main.c
-SRC = $(SRC_PATH)$(SRCS)
+SRCS = ft_putfldt.c \
+		main.c
+
+SRC = $(addprefix $(SRC_PATH), $(SRCS))
 
 OBJ = $(SRC:.c=.o)
 

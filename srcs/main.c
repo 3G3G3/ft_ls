@@ -2,8 +2,8 @@
 
 void		ft_freefldt(t_filedata *fldt)
 {
-		free(fldt->name);
-		free(fldt->rights);
+	free(fldt->name);
+	free(fldt->rights);
 }
 
 void		ft_freelst(t_list **elem)
@@ -26,15 +26,18 @@ void		ft_freelst(t_list **elem)
 int				ft_readlvln(DIR *fd_dir)
 {
 	(void)fd_dir;
-	/*
-	   Recuprer toutes les info necessaires (fonction des options demandées)
-	   Stockage sous forme de liste
-
-	   Trier selon les options demandées
-
-	   Imprimer l'ensemble des fichiers
-
-	   Imprimer le nom du dossier (NULL dans le cas du niveau 0)
+/*
+	Trier selon les options demandées
+	Imprimer l'ensemble des fichiers
+*/
+/*
+	fd_dir = opendir(".");
+	if (fd_dir == NULL)
+		return (0);
+	dir_lst = ft_readlvl0(fd_dir);
+	closedir(fd_dir);
+*/
+/*
 	   Appliquer la fonction de manière récursive sur chacun des repertoires 
 	   (fonction de -R)
 	   */
@@ -106,6 +109,7 @@ t_list			*ft_fldt_listnew(struct dirent	*dir)
 	t_list			*res;
 
 	fldt = ft_getstat(dir);
+	ft_putfldt(fldt);
 	if (fldt == NULL)
 		return (NULL);
 	res = ft_lstnew(fldt, sizeof(t_filedata));
@@ -123,7 +127,10 @@ t_list			*ft_readlvl0(DIR *fd_dir)
 
 	dir = readdir(fd_dir);
 	if (dir == NULL)
+	{
+		ft_putendl("there");
 		return (NULL);
+	}
 	res = ft_fldt_listnew(dir);
 	while ((dir = readdir(fd_dir)) != NULL)
 	{
@@ -146,19 +153,24 @@ int main()
 
 	fd_dir = opendir(".");
 	if (fd_dir == NULL)
+	{
+		ft_putendl("ici");
 		return (0);
+	}
 	dir_lst = ft_readlvl0(fd_dir);
 	closedir(fd_dir);
+	if (dir_lst == NULL)
+		ft_putendl("regarde moi");
 	lst_read = dir_lst;
 	while (lst_read != NULL)
 	{
-		ft_putstr(((t_filedata *)(lst_read->content))->name);
-		ft_putstr(" : ");
-		ft_putstr(((t_filedata *)(lst_read->content))->rights);
-		ft_putendl(";");
+		ft_putfldt((t_filedata *)(lst_read->content));
 		lst_read = lst_read->next;
 	}
 	if (dir_lst != NULL)
+	{
+		ft_putendl("la");
 		ft_freelst(&dir_lst);
+	}
 	return (1);
 }
