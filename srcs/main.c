@@ -1,49 +1,5 @@
 #include "ft_ls.h"
 
-void		ft_freefldt(t_filedata *fldt)
-{
-	free(fldt->name);
-	free(fldt->rights);
-}
-
-void		ft_freelst(t_list **elem)
-{
-	t_list		*tmp1;
-	t_list		*tmp2;
-
-	tmp1 = *elem;
-	while (tmp1 != NULL)
-	{
-		ft_freefldt(tmp1->content);
-		free(tmp1->content);
-		tmp2 = tmp1->next;
-		free(tmp1);
-		tmp1 = NULL;
-		tmp1 = tmp2;
-	}
-}
-
-int				ft_readlvln(DIR *fd_dir)
-{
-	(void)fd_dir;
-/*
-	Trier selon les options demandées
-	Imprimer l'ensemble des fichiers
-*/
-/*
-	fd_dir = opendir(".");
-	if (fd_dir == NULL)
-		return (0);
-	dir_lst = ft_readlvl0(fd_dir);
-	closedir(fd_dir);
-*/
-/*
-	   Appliquer la fonction de manière récursive sur chacun des repertoires 
-	   (fonction de -R)
-	   */
-	return (1);
-}
-
 void		ft_convertrights(t_stat *stats, char *rights)
 {
 	rights[0] = ( (S_ISDIR(stats->st_mode)) ? 'd': '-');
@@ -64,12 +20,14 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats)
 	fldt->name = ft_strdup(dir->d_name);
 	if (fldt->name == NULL)
 	{
+		ft_putendl("a");
 		free(fldt);
 		return (NULL);
 	}
 	fldt->rights = ft_strnew(10);
 	if (fldt->rights == NULL)
 	{
+		ft_putendl("b");
 		free(fldt->name);
 		free(fldt);
 		return (NULL);
@@ -78,10 +36,11 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats)
 	return (fldt);
 }
 
-t_filedata	*ft_getstat(struct dirent *dir)
+t_filedata	*ft_getstat(char *path, struct dirent *dir)
 {
 	t_filedata	*fldt;
 	t_stat		*stats;
+	char		*bpath;
 
 	fldt = (t_filedata *)ft_memalloc(sizeof(t_filedata));
 	if (fldt == NULL)
@@ -92,34 +51,46 @@ t_filedata	*ft_getstat(struct dirent *dir)
 		free(fldt);
 		return (NULL);
 	}
-	if (stat(dir->d_name, stats) == -1)
+	bpath = ft_strjoin(path, dir->d_name);
+	if (bpath == NULL)
 	{
+		free(fldt);
+		free(stats);
+		return (NULL);
+	}
+	if (stat(bpath, stats) == -1)
+	{
+		ft_putendl("essaye encore");
 		free(stats);
 		free(fldt);
 		return (NULL);
 	}
 	fldt = ft_convertstat(fldt, dir, stats);
 	free(stats);
+	free(bpath);
 	return (fldt);
 }
 
-t_list			*ft_fldt_listnew(struct dirent	*dir)
+t_list			*ft_fldt_listnew(struct dirent *dir, char *path)
 {
 	t_filedata		*fldt;
 	t_list			*res;
 
-	fldt = ft_getstat(dir);
-	ft_putfldt(fldt);
+	fldt = ft_getstat(path, dir);
 	if (fldt == NULL)
 		return (NULL);
+	fldt->path = path;
+	//	ft_putfldt(fldt);
 	res = ft_lstnew(fldt, sizeof(t_filedata));
 	free(fldt);
+//	fldt = (t_filedata *)res->content;
+//	res->content = fldt;
 	if (res == NULL)
 		return (NULL);
 	return (res);
 }
 
-t_list			*ft_readlvl0(DIR *fd_dir)
+t_list			*ft_readlvl0(DIR *fd_dir, char *path)
 {
 	struct dirent		*dir;
 	t_list				*res;
@@ -131,10 +102,10 @@ t_list			*ft_readlvl0(DIR *fd_dir)
 		ft_putendl("there");
 		return (NULL);
 	}
-	res = ft_fldt_listnew(dir);
+	res = ft_fldt_listnew(dir, path);
 	while ((dir = readdir(fd_dir)) != NULL)
 	{
-		tmp_res = ft_fldt_listnew(dir);
+		tmp_res = ft_fldt_listnew(dir, path);
 		if (tmp_res == NULL)
 		{
 			ft_freelst(&res);
@@ -145,28 +116,95 @@ t_list			*ft_readlvl0(DIR *fd_dir)
 	return (res);
 }
 
-int main()
+char			*ft_buildpath(t_filedata *fldt)
+{
+	char		*tmp1;
+	char		*tmp2;
+
+	tmp1 = ft_strjoin(fldt->path, fldt->name);
+	if (tmp1 == NULL)
+		return (NULL);
+	tmp2 = ft_strjoinfree(&tmp1, "/");
+	if (tmp2 == NULL)
+	{
+		free(tmp1);
+		return (NULL);
+	}
+	return (tmp2);
+}
+
+int				ft_readlvln(t_list *files)
+{
+	DIR			*fd_dir;
+	t_list		*lvln;
+	char		*path;
+
+	/*
+	   Trier selon les options demandées
+	   Imprimer l'ensemble des fichiers
+	*/
+	/*
+	   fd_dir = opendir(".");
+	   if (fd_dir == NULL)
+	   return (0);
+	   dir_lst = ft_readlvl0(fd_dir);
+	   closedir(fd_dir);
+	*/
+	while (files != NULL)
+	{
+		if ((((t_filedata *)(files->content))->name)[ft_strlen(((t_filedata *)(files->content))->name) - 1] == '.')
+			ft_putendl(".. or . escaped");
+		else if ((((t_filedata *)(files->content))->rights)[0] == 'd')
+		{
+			path = ft_buildpath((t_filedata *)(files->content));
+			if (path == NULL)
+				return (0);
+			fd_dir = opendir(path);
+			if (fd_dir == NULL)
+			{
+				free(path);
+				ft_putendl("ici");
+				return (0);
+			}
+			lvln = ft_readlvl0(fd_dir, path);
+			closedir(fd_dir);
+			ft_putfldtlst(lvln);
+			ft_readlvln(lvln);
+			ft_freelst(&lvln);
+			free(path);
+		}
+		files = files->next;
+	}
+	/*
+	   Appliquer la fonction de manière récursive sur chacun des repertoires 
+	   (fonction de -R)
+	*/
+	return (1);
+}
+
+
+int main(int argc, char **argv)
 {
 	DIR					*fd_dir;
 	t_list				*dir_lst;
-	t_list				*lst_read;
+	char				*path;
 
-	fd_dir = opendir(".");
+	if (argc == 2)
+		path = argv[1];
+	else
+		path = "./";
+	fd_dir = opendir(path);
 	if (fd_dir == NULL)
 	{
 		ft_putendl("ici");
 		return (0);
 	}
-	dir_lst = ft_readlvl0(fd_dir);
+	dir_lst = ft_readlvl0(fd_dir, path);
 	closedir(fd_dir);
 	if (dir_lst == NULL)
 		ft_putendl("regarde moi");
-	lst_read = dir_lst;
-	while (lst_read != NULL)
-	{
-		ft_putfldt((t_filedata *)(lst_read->content));
-		lst_read = lst_read->next;
-	}
+	ft_putfldtlst(dir_lst);
+	ft_readlvln(dir_lst);
 	if (dir_lst != NULL)
 	{
 		ft_putendl("la");

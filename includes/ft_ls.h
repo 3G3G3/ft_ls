@@ -10,7 +10,11 @@ typedef	struct		s_filedata
 {
 	char			*name;
 	char			*rights;
-	t_stat			*stats;
+	char			*path;
 }					t_filedata;
 
-void		ft_putfldt(t_filedata *fldt);
+void		ft_putfldt(t_filedata *fldt); // pourra être supprimée à terme
+
+void		ft_putfldtlst(t_list *lst);
+
+void ft_freelst(t_list **elem);

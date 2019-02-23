@@ -164,7 +164,7 @@ char				*ft_readfile(const int fd, size_t buff_size);
 
 size_t				ft_strchri(char const *s, int c);
 
-char				*ft_strjoinfree(char *s1, const char *s2);
+char				*ft_strjoinfree(char **s1, const char *s2);
 
 void				ft_lstdelstr(void	*content, size_t size);
 
