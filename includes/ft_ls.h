@@ -19,8 +19,10 @@ void		ft_putfldt(t_filedata *fldt); // pourra être supprimée à terme
 
 void		ft_putfldtlst(t_list *lst);
 
+t_filedata	* ft_getstat(struct dirent *dir, char *path);
+
 void		ft_freelst(t_list **elem);
 
-void		ft_lstsortedadd(t_list **lst, t_list *elem, char *opt);
+void		ft_lstsortedadd(t_list **lst, t_list *elem, char *opts);
 
-char		**ft_parseinput(int argc, char **argv);
+char		*ft_parseopts(int argc, char **argv);

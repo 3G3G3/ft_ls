@@ -40,14 +40,13 @@ void		ft_getsortfunc(char *opt, int (**f)(t_list *elem1, t_list *elem2))
 		*f = ft_asciisort;
 }
 
-void		ft_lstsortedadd(t_list **lst, t_list *elem, char *opt)
+void		ft_lstsortedadd(t_list **lst, t_list *elem, char *opts)
 {
 	t_list		*tmp;
 	t_list		*melem;
 	int			(*f)(t_list *elem1, t_list *elem2);
 
-	ft_getsortfunc("----t", &f);
-	opt = (void *)opt;
+	ft_getsortfunc(opts, &f);
 	tmp = *lst;
 //	ft_putnbrendl(ft_defaultsort(tmp, elem));
 	if (f(tmp, elem) > 0)
