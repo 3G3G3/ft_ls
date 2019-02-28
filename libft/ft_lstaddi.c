@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-void	ft_lstaddi(t_list *alst, t_list *new)
+void	ft_lstaddi(t_list **alst, t_list *new)
 {
 	t_list	*t;
 
-	if (!alst || !new)
+	if (!alst || !(*alst) || !new)
 		return ;
-	t = alst->next;
-	alst->next = new;
+	t = (*alst)->next;
+	(*alst)->next = new;
 	new->next = t;
 }

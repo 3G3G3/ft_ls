@@ -148,7 +148,7 @@ t_list				*ft_str2lst(void *ptr, size_t len);
 
 t_list				*ft_split2lst(char **split);
 
-void				ft_lstaddi(t_list *alst, t_list *new);
+void				ft_lstaddi(t_list **alst, t_list *new);
 
 void				ft_lstaddin(t_list *alst1, t_list *alst2, size_t n);
 

@@ -23,7 +23,7 @@ void	ft_lstaddin(t_list *alst1, t_list *alst2, size_t n)
 	while (i < n && alst2)
 	{
 		t = alst2->next;
-		ft_lstaddi(alst1, alst2);
+		ft_lstaddi(&alst1, alst2);
 		alst1 = alst1->next;
 		alst2 = t;
 		i++;

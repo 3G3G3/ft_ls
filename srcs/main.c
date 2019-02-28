@@ -32,6 +32,7 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats)
 		free(fldt);
 		return (NULL);
 	}
+	fldt->abs_time = stats->st_mtime;
 	ft_convertrights(stats, fldt->rights);
 	return (fldt);
 }
@@ -111,7 +112,9 @@ t_list			*ft_readlvl0(DIR *fd_dir, char *path)
 			ft_freelst(&res);
 			return (NULL);
 		}
-		ft_lstadd(&res, tmp_res);
+		ft_lstsortedadd(&res, tmp_res, "");
+//		ft_putfldtlst(res);
+//		ft_lstadd(&res, tmp_res);
 	}
 	return (res);
 }
@@ -141,14 +144,6 @@ int				ft_readlvln(t_list *files)
 
 	/*
 	   Trier selon les options demandées
-	   Imprimer l'ensemble des fichiers
-	*/
-	/*
-	   fd_dir = opendir(".");
-	   if (fd_dir == NULL)
-	   return (0);
-	   dir_lst = ft_readlvl0(fd_dir);
-	   closedir(fd_dir);
 	*/
 	while (files != NULL)
 	{
@@ -175,10 +170,6 @@ int				ft_readlvln(t_list *files)
 		}
 		files = files->next;
 	}
-	/*
-	   Appliquer la fonction de manière récursive sur chacun des repertoires 
-	   (fonction de -R)
-	*/
 	return (1);
 }
 
@@ -204,7 +195,7 @@ int main(int argc, char **argv)
 	if (dir_lst == NULL)
 		ft_putendl("regarde moi");
 	ft_putfldtlst(dir_lst);
-	ft_readlvln(dir_lst);
+//	ft_readlvln(dir_lst);
 	if (dir_lst != NULL)
 	{
 		ft_putendl("la");
