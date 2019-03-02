@@ -26,3 +26,5 @@ void		ft_freelst(t_list **elem);
 void		ft_lstsortedadd(t_list **lst, t_list *elem, char *opts);
 
 char		*ft_parseopts(int argc, char **argv);
+
+t_list		*ft_readpathinput(int argc, char **argv, char *opts);

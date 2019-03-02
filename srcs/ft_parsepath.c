@@ -23,6 +23,109 @@ DIR			*ft_opendir(char *path)
 	return (res);
 }
 
+int		ft_getlastslash(char *str)
+{
+	int		i;
+
+	if (str == NULL)
+		return (-2);
+	i = ft_strlen(str) - 1;
+	while (i >= 0 && str[i] != '/')
+		i--;
+	return (i);
+}
+
+char	**ft_fillpathnfile(char *str, int i)
+{
+	char	**res;
+	char	*rpath;
+	char	*rfile;
+
+	ft_putnbrendl(i);
+	res = (char **)ft_memalloc(3 * sizeof(char *));
+	if (ft_strcmp(str, "..") == 0)
+	{
+		ft_putendl("testreussi");
+		rpath = ft_strdup("../");
+	}
+	else if (i == -1)
+		rpath = ft_strdup("./");
+	else
+		rpath = ft_strnew((i + 1) * sizeof(char));
+	rfile = ft_strnew((ft_strlen(str) - i) * sizeof(char));
+	if (res == NULL || rpath == NULL || rfile == NULL)
+	{
+		if (res != NULL)
+			free(res);
+		if (rpath != NULL)
+			free(rpath);
+		if (rfile != NULL)
+			free(rfile);
+		return (NULL);
+	}
+	if (rpath[0] != '.')
+		str = ft_memcpy(rpath, str, i + 1);
+	if (ft_strncmp(rpath, "/", 1) != 0 && ft_strncmp(rpath, "./", 2) != 0 &&
+			ft_strncmp(rpath, "~/", 2) != 0 && ft_strncmp(rpath, "../", 3) != 0)
+		rpath = ft_strjoin("./", rpath);
+	res[0] = rpath;
+	str = ft_memcpy(rfile, str, (ft_strlen(str) - i));
+	res[1] = rfile;
+	ft_putendl(rpath);
+	return (res);
+}
+
+char	**ft_getpathnfile(char *str)
+{
+	int		i;
+	char	**res;
+
+	i = ft_getlastslash(str);
+	if (i == -2)
+		return (NULL);
+	res = ft_fillpathnfile(str, i);
+//	ft_putendl(res[1]);
+	return (res);
+}
+
+
+t_list		*ft_readpathinput(int argc, char **argv, char *opts)
+{
+	int		i;
+	char		**ptmp;
+	t_list		*tmp;
+	t_list		*res;
+
+	opts = (void *)opts;
+	i = ft_getindexfirstpath(argc, argv);
+	if (i == argc)
+		return (ft_lstnew("./", 3 * sizeof(char)));
+	ft_putendl(argv[i]);
+	ptmp = ft_getpathnfile(argv[i]);
+	if (ptmp == NULL)
+		return (NULL);
+	ft_putendl(ptmp[0]);
+	res = ft_lstnew(ptmp[0], ft_strlen(ptmp[0]) * sizeof(char));
+	if (res == NULL)
+		return (NULL);
+	i++;
+	while (i < argc)
+	{
+		ft_putendl(argv[i]);
+		ptmp = ft_getpathnfile(argv[i]);
+		if (ptmp == NULL)
+			return (NULL);
+		ft_putendl(ptmp[0]);
+		tmp = ft_lstnew(ptmp[0], ft_strlen(ptmp[0]) * sizeof(char));
+		if (tmp == NULL)
+			return (NULL);
+		ft_lstadd(&res, tmp);
+		i++;
+	}
+	return (res);
+}
+
+/*
 t_list		*ft_readpathinput(int argc, char **argv, char *opts)
 {
 	int			i;
@@ -65,6 +168,7 @@ t_list		*ft_readpathinput(int argc, char **argv, char *opts)
 	}
 	return (res);
 }
+*/
 
 /*
 ## creer une struture avec le fd le nom et la date de mofication, sur laquelle on opere le tri,

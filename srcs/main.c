@@ -110,22 +110,36 @@ int				ft_readlvln(t_list *files, char *opts)
 
 int main(int argc, char **argv)
 {
-	DIR					*fd_dir;
+//	DIR					*fd_dir;
 	t_list				*dir_lst;
-	char				*path;
+//	char				*path;
 	char				*opts;
+//	struct dirent		*dir;
 
 	opts = ft_parseopts(argc, argv);
-//	if (argc == 2)
-//		path = argv[1];
-//	else
-		path = "./ft_ls";
+/*
+		path = "libft";
+		path = argv[1];
 	fd_dir = opendir(path);
 	if (fd_dir == NULL)
 	{
 		ft_putendl("ici");
 		return (0);
 	}
+
+	dir = readdir(fd_dir);
+	if (dir == NULL)
+	{
+		ft_putendl("bigmistake");
+		return (-1);
+	}
+	ft_putendl(dir->d_name);
+	if (dir->d_type == DT_REG)
+		ft_putendl("file");
+	if (dir->d_type == DT_DIR)
+		ft_putendl("dir");
+	closedir(fd_dir);
+
 	dir_lst = ft_readlvl0(fd_dir, path, opts);
 	closedir(fd_dir);
 	if (dir_lst == NULL)
@@ -138,6 +152,13 @@ int main(int argc, char **argv)
 	{
 		ft_putendl("la");
 		ft_freelst(&dir_lst);
+	}
+*/
+	dir_lst = ft_readpathinput(argc, argv, opts);
+	while (dir_lst != NULL)
+	{
+		ft_putendl(dir_lst->content);
+		dir_lst = dir_lst->next;
 	}
 	return (1);
 }
