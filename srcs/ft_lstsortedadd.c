@@ -1,5 +1,10 @@
 #include "ft_ls.h"
 
+int		ft_pasciisort(t_list *elem1, t_list *elem2)
+{
+	return (ft_strcmp(((t_filedata *)(elem1->content))->input_name,
+						((t_filedata *)(elem2->content))->input_name));
+}
 
 int		ft_asciisort(t_list *elem1, t_list *elem2)
 {
@@ -36,6 +41,8 @@ void		ft_getsortfunc(char *opt, int (**f)(t_list *elem1, t_list *elem2))
 		*f = ft_tmsort;
 	else if (opt[3] == 'r' && opt[4] == 't')
 		*f = ft_rtmsort;
+	else if (opt[4] == 'i')
+		*f = ft_pasciisort;
 	else
 		*f = ft_asciisort;
 }

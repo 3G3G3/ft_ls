@@ -1,14 +1,16 @@
 #include "ft_ls.h"
 
-t_list			*ft_fldt_listnew(struct dirent *dir, char *path)
+t_list			*ft_fldt_listnew(struct dirent *dir, char *fdir)
 {
 	t_filedata		*fldt;
 	t_list			*res;
 
-	fldt = ft_getstat(dir, path);
+	fldt = ft_getstat0(dir, fdir);
 	if (fldt == NULL)
 		return (NULL);
-	fldt->path = path;
+	fldt->dir = ft_strdup(fdir);
+	if (fldt->dir == NULL)
+		return (NULL);
 	//	ft_putfldt(fldt);
 	res = ft_lstnew(fldt, sizeof(t_filedata));
 	free(fldt);
@@ -19,7 +21,7 @@ t_list			*ft_fldt_listnew(struct dirent *dir, char *path)
 	return (res);
 }
 
-t_list			*ft_readlvl0(DIR *fd_dir, char *path, char *opts)
+t_list			*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts)
 {
 	struct dirent		*dir;
 	t_list				*res;
@@ -34,12 +36,12 @@ t_list			*ft_readlvl0(DIR *fd_dir, char *path, char *opts)
 		ft_putendl("there");
 		return (NULL);
 	}
-	res = ft_fldt_listnew(dir, path);
+	res = ft_fldt_listnew(dir, fdir);
 	while ((dir = readdir(fd_dir)) != NULL)
 	{
 		if (opts[2] == 'a' || (dir->d_name)[0] != '.')
 		{
-			tmp_res = ft_fldt_listnew(dir, path);
+			tmp_res = ft_fldt_listnew(dir, fdir);
 			if (tmp_res == NULL)
 			{
 				ft_freelst(&res);
@@ -51,23 +53,6 @@ t_list			*ft_readlvl0(DIR *fd_dir, char *path, char *opts)
 		}
 	}
 	return (res);
-}
-
-char			*ft_buildpath(t_filedata *fldt)
-{
-	char		*tmp1;
-	char		*tmp2;
-
-	tmp1 = ft_strjoin(fldt->path, fldt->name);
-	if (tmp1 == NULL)
-		return (NULL);
-	tmp2 = ft_strjoinfree(&tmp1, "/");
-	if (tmp2 == NULL)
-	{
-		free(tmp1);
-		return (NULL);
-	}
-	return (tmp2);
 }
 
 int				ft_readlvln(t_list *files, char *opts)
@@ -110,68 +95,31 @@ int				ft_readlvln(t_list *files, char *opts)
 
 int main(int argc, char **argv)
 {
-//	DIR					*fd_dir;
-	t_list				*dir_lst;
-//	char				*path;
+	DIR					*fd;
 	char				*opts;
-//	struct dirent		*dir;
+	t_list				*dir_lst;
+	t_list				*lvl0;
+	char				*path;
 
 	opts = ft_parseopts(argc, argv);
-/*
-		path = "libft";
-		path = argv[1];
-	fd_dir = opendir(path);
-	if (fd_dir == NULL)
-	{
-		ft_putendl("ici");
-		return (0);
-	}
-
-	dir = readdir(fd_dir);
-	if (dir == NULL)
-	{
-		ft_putendl("bigmistake");
-		return (-1);
-	}
-	ft_putendl(dir->d_name);
-	if (dir->d_type == DT_REG)
-		ft_putendl("file");
-	if (dir->d_type == DT_DIR)
-		ft_putendl("dir");
-	closedir(fd_dir);
-
-	dir_lst = ft_readlvl0(fd_dir, path, opts);
-	closedir(fd_dir);
-	if (dir_lst == NULL)
-		ft_putendl("regarde moi");
-	ft_putfldtlst(dir_lst);
-	if (opts[1] == 'R')
-		ft_readlvln(dir_lst, opts);
-	free(opts);
-	if (dir_lst != NULL)
-	{
-		ft_putendl("la");
-		ft_freelst(&dir_lst);
-	}
-*/
-	dir_lst = ft_readpathinput(argc, argv, opts);
+	dir_lst = ft_readpathinput(argc, argv);
+	dir_lst = ft_exists(dir_lst);
+//	ft_putfldtlst(dir_lst);
 	while (dir_lst != NULL)
 	{
-		ft_putendl(dir_lst->content);
+		ft_putendl(((t_filedata *)(dir_lst->content))->input_name);
+		if ((((t_filedata *)(dir_lst->content))->rights)[0] == 'd')
+		{
+			fd = opendir(((t_filedata *)(dir_lst->content))->path);
+			path = ft_normpath(((t_filedata *)(dir_lst->content))->path);
+			lvl0 = ft_readlvl0(fd, path, opts);
+			ft_putfldtlst(lvl0);
+			free(path);
+			ft_freelst(&lvl0);
+		}
 		dir_lst = dir_lst->next;
 	}
-	return (1);
 }
-
-/*
-## prendre en compte quand plusieurs repertoires en input,
-##		le tri s'oppere en premier lieu sur ces repertoires
-*/
-
-/*
-## attention quand l'input est un fichier et non un dossier,
-## il faut en autre verifier s'il existe bien.
-*/
 
 /*
 ## repertoire sans les droits?

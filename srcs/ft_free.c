@@ -2,8 +2,16 @@
 
 void		ft_freefldt(t_filedata *fldt)
 {
-	free(fldt->name);
-	free(fldt->rights);
+	if (fldt->input_name != NULL)
+		free(fldt->input_name);
+	if (fldt->dir != NULL)
+		free(fldt->dir);
+	if (fldt->name != NULL)
+		free(fldt->name);
+	if (fldt->path != NULL)
+		free(fldt->path);
+	if (fldt->rights != NULL)
+		free(fldt->rights);
 }
 
 void		ft_freelst(t_list **elem)

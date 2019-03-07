@@ -5,17 +5,19 @@ LIBFT_PATH = ./libft/
 INC_PATH = ./includes/
 
 CC = gcc
-#DEBUG_FLAGS = -g  -fsanitize=address
-DEBUG_FLAGS =  
+DEBUG_FLAGS = -g  -fsanitize=address
+#DEBUG_FLAGS =  
 CFLAGS = -Wall -Werror -Wextra -I $(INC_PATH) -I $(LIBFT_PATH) -g3
 
 LIBFT = $(LIBFT_PATH)libft.a
 SRCS = ft_getstats.c		\
+		ft_tools.c			\
 		ft_putfldt.c		\
 		ft_free.c			\
 		ft_lstsortedadd.c	\
 		ft_parseopts.c		\
 		ft_parsepath.c		\
+		ft_exists.c			\
 		main.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRCS))

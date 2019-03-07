@@ -37,7 +37,7 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats)
 	return (fldt);
 }
 
-t_filedata	*ft_getstat(struct dirent *dir, char *path)
+t_filedata	*ft_getstat0(struct dirent *dir, char *fdir)
 {
 	t_filedata	*fldt;
 	t_stat		*stats;
@@ -52,7 +52,7 @@ t_filedata	*ft_getstat(struct dirent *dir, char *path)
 		free(fldt);
 		return (NULL);
 	}
-	bpath = ft_strjoin(path, dir->d_name);
+	bpath = ft_strjoin(fdir, dir->d_name);
 	if (bpath == NULL)
 	{
 		free(fldt);
