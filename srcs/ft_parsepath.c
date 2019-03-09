@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parsepath.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/09 15:35:33 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/03/09 18:16:38 by grgauthi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
-char	**ft_filldirnfile(char *str, int i)
+char		**ft_dirnfilemalloc(char *str, int i)
 {
 	char	**res;
 	char	*rdir;
@@ -24,19 +36,34 @@ char	**ft_filldirnfile(char *str, int i)
 			free(rfile);
 		return (NULL);
 	}
-	if (rdir[0] != '.')
-		rdir = ft_memcpy(rdir, str, i + 1);
-	if (ft_strncmp(rdir, "/", 1) != 0 && ft_strncmp(rdir, "./", 2) != 0 &&
-			ft_strncmp(rdir, "~/", 2) != 0 && ft_strncmp(rdir, "../", 3) != 0)
-		rdir = ft_strjoin("./", rdir);
 	res[0] = rdir;
-	if (ft_strcmp(str, "..") != 0 && ft_strcmp(str, ".") != 0)
-		rfile = ft_memcpy(rfile, str + 1 + i, (ft_strlen(str) - i));
 	res[1] = rfile;
 	return (res);
 }
 
-char	**ft_getdirnfile(char *str)
+char		**ft_filldirnfile(char *str, int i)
+{
+	char	**res;
+	char	*tmp;
+
+	res = ft_dirnfilemalloc(str, i);
+	if (res == NULL)
+		return (NULL);
+	if (res[0][0] != '.')
+		res[0] = ft_memcpy(res[0], str, i + 1);
+	if (ft_strncmp(res[0], "/", 1) != 0 && ft_strncmp(res[0], "./", 2) != 0 &&
+		ft_strncmp(res[0], "~/", 2) != 0 && ft_strncmp(res[0], "../", 3) != 0)
+	{
+		tmp = res[0];
+		res[0] = ft_strjoin("./", tmp);
+		free(tmp);
+	}
+	if (ft_strcmp(str, "..") != 0 && ft_strcmp(str, ".") != 0)
+		res[1] = ft_memcpy(res[1], str + 1 + i, (ft_strlen(str) - i));
+	return (res);
+}
+
+char		**ft_getdirnfile(char *str)
 {
 	int		i;
 	char	**res;
@@ -48,58 +75,44 @@ char	**ft_getdirnfile(char *str)
 	return (res);
 }
 
-t_list		*ft_createelem(char *path)
+t_list		*ft_addpath(t_list **lst, char *path, char *opts)
 {
-	char			**tmp;
-	t_filedata		*fldt;
-	t_list			*res;
+	t_list		*tmp;
 
-	if ((tmp = ft_getdirnfile(path)) == NULL)
+	tmp = ft_createelem(path);
+	if (tmp == NULL)
+	{
+		ft_freelst(lst);
 		return (NULL);
-	if ((fldt = (t_filedata *)ft_memalloc(sizeof(t_filedata))) == NULL)
-		return (NULL);
-	if ((res = ft_lstnew(fldt, sizeof(t_filedata))) == NULL)
-		return (NULL);
-	if ((((t_filedata *)(res->content))->dir = tmp[0]) == NULL)
-		return (NULL);
-	if ((((t_filedata *)(res->content))->name = tmp[1]) == NULL)
-		return (NULL);
-	if ((((t_filedata *)(res->content))->path = ft_strjoin(tmp[0],
-															tmp[1])) == NULL)
-		return (NULL);
-	if ((((t_filedata *)(res->content))->input_name = ft_strdup(path)) == NULL)
-		return (NULL);
-	if ((((t_filedata *)(res->content))->rights = ft_strnew(10)) == NULL)
-		return (NULL);
-	return (res);
-// libérer les précèdents en cas d'échec de mallloc
+	}
+	if (opts[3] == '-' && opts[4] == '-')
+		ft_lstsortedadd(lst, tmp, "----i");
+	else if (opts[3] == 'r' && opts[4] == '-')
+		ft_lstsortedadd(lst, tmp, "---ri");
+	else
+		ft_lstsortedadd(lst, tmp, opts);
+	return (*lst);
 }
 
-
-t_list		*ft_readpathinput(int argc, char **argv)
+t_list		*ft_readpathinput(int argc, char **argv, char *opts)
 {
-	int		i;
-	t_list		*tmp;
+	int			i;
 	t_list		*res;
-	t_filedata	*fldt;
+//	t_filedata	*fldt;
 
 	i = ft_getindexfirstpath(argc, argv);
-	fldt = (t_filedata *)ft_memalloc(sizeof(t_filedata));
-	if (fldt == NULL)
-		return (NULL);
+//	fldt = (t_filedata *)ft_memalloc(sizeof(t_filedata));
+//	if (fldt == NULL)
+//		return (NULL);
 	if (i == argc)
-		return (ft_createelem("./"));
+		return (ft_createelem("./\0"));
 	res = ft_createelem(argv[i]);
 	if (res == NULL)
 		return (NULL);
 	i++;
 	while (i < argc)
 	{
-		tmp = ft_createelem(argv[i]);
-		if (tmp == NULL)
-			return (NULL);
-//		liberer le début de liste
-		ft_lstsortedadd(&res, tmp, "----i");
+		res = ft_addpath(&res, argv[i], opts);
 		i++;
 	}
 	return (res);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/09 14:43:56 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/03/09 18:06:05 by grgauthi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
 void		ft_freefldt(t_filedata *fldt)
@@ -12,6 +24,8 @@ void		ft_freefldt(t_filedata *fldt)
 		free(fldt->path);
 	if (fldt->rights != NULL)
 		free(fldt->rights);
+	free(fldt);
+	fldt = NULL;
 }
 
 void		ft_freelst(t_list **elem)
@@ -23,11 +37,9 @@ void		ft_freelst(t_list **elem)
 	while (tmp1 != NULL)
 	{
 		ft_freefldt(tmp1->content);
-		free(tmp1->content);
 		tmp2 = tmp1->next;
 		free(tmp1);
 		tmp1 = NULL;
 		tmp1 = tmp2;
 	}
 }
-

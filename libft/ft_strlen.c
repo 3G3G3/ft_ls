@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/02 21:37:14 by grgauthi          #+#    #+#             */
-/*   Updated: 2018/08/02 22:30:01 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/09 18:10:56 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t		ft_strlen(const char *str)
 	if (!str)
 		return (0);
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 		i++;
 	return (i);
 }

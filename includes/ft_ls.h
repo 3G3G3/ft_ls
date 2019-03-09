@@ -23,7 +23,11 @@ char		*ft_normpath(char *path);
 
 char		*ft_buildpath(t_filedata *fldt);
 
+char		**ft_getdirnfile(char *str);
+
 int			ft_getlastslash(char *str);
+
+t_list		*ft_createelem(char *path);
 
 void		ft_putfldt(t_filedata *fldt); // pourra être supprimée à terme
 
@@ -41,6 +45,6 @@ void		ft_lstsortedadd(t_list **lst, t_list *elem, char *opts);
 
 char		*ft_parseopts(int argc, char **argv);
 
-t_list		*ft_readpathinput(int argc, char **argv);
+t_list		*ft_readpathinput(int argc, char **argv, char *opts);
 
 t_list		*ft_exists(t_list *lst);

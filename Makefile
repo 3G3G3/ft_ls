@@ -5,7 +5,7 @@ LIBFT_PATH = ./libft/
 INC_PATH = ./includes/
 
 CC = gcc
-DEBUG_FLAGS = -g  -fsanitize=address
+DEBUG_FLAGS = -g #-fsanitize=address
 #DEBUG_FLAGS =  
 CFLAGS = -Wall -Werror -Wextra -I $(INC_PATH) -I $(LIBFT_PATH) -g3
 

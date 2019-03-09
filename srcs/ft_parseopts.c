@@ -1,10 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parseopts.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/09 14:44:31 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/03/09 17:41:14 by grgauthi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
-
-// parcourir ligne par ligne tant que -
-// si charactère pas une option, renvoyer usage et NULL
-
-char	*ft_getopt(char input, char *buf)
+char		*ft_getopt(char input, char *buf)
 {
 	if (input == 'l')
 		buf[0] = 'l';
@@ -18,13 +26,13 @@ char	*ft_getopt(char input, char *buf)
 		buf[4] = 't';
 	else
 	{
-		free(buf);
-		return (NULL);
+		ft_putchar(input);
+		ft_putendl(": illegal option");
 	}
 	return (buf);
 }
 
-char	*ft_readopt(char *input, char *buf)
+char		*ft_readopt(char *input, char *buf)
 {
 	int		i;
 
@@ -39,8 +47,6 @@ char	*ft_readopt(char *input, char *buf)
 	return (buf);
 }
 
-// iteration sur les fonction plus hautes à partir de ce rang jusqu`à la fin du char**, les erreurs seront renvoyées dans ces fonction au moment de la lecture. attention, les erreurs de lecture sont renvoyées en première.
-
 char		*ft_parseopts(int argc, char **argv)
 {
 	int		i;
@@ -54,13 +60,7 @@ char		*ft_parseopts(int argc, char **argv)
 	while (i < argc && argv[i][0] == '-')
 	{
 		opts = ft_readopt(argv[i], opts);
-		if (opts == NULL)
-		{
-//			write usage;
-			return (NULL);
-		}
 		i++;
 	}
 	return (opts);
 }
-
