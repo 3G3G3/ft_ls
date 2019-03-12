@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:51:29 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/09 15:03:09 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/12 19:47:04 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void		ft_convertrights(t_stat *stats, char *rights)
 	rights[7] = ((stats->st_mode & S_IROTH) ? 'r' : '-');
 	rights[8] = ((stats->st_mode & S_IWOTH) ? 'w' : '-');
 	rights[9] = ((stats->st_mode & S_IXOTH) ? 'x' : '-');
-	rights[10] = ' ';
 }
 
-t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats)
+t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats,
+									char *opts)
 {
 	fldt->name = ft_strdup(dir->d_name);
 	if (fldt->name == NULL)
@@ -66,6 +66,10 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats)
 	}
 	fldt->abs_time = stats->st_mtime;
 	ft_convertrights(stats, fldt->rights);
+	if (opts[0] == 'l')
+		ft_getlongopt(fldt, stats);
+//	if (ft_getlongopt(fldt, stats) == NULL)
+	// free precent
 	return (fldt);
 }
 
@@ -79,7 +83,7 @@ void		ft_freestats(t_filedata *fldt, t_stat *stats, char *bpath)
 		free(bpath);
 }
 
-t_filedata	*ft_getstat0(struct dirent *dir, char *fdir)
+t_filedata	*ft_getstat0(struct dirent *dir, char *fdir, char *opts)
 {
 	t_filedata	*fldt;
 	t_stat		*stats;
@@ -98,7 +102,7 @@ t_filedata	*ft_getstat0(struct dirent *dir, char *fdir)
 		ft_freestats(fldt, stats, bpath);
 		return (NULL);
 	}
-	fldt = ft_convertstat(fldt, dir, stats);
+	fldt = ft_convertstat(fldt, dir, stats, opts);
 	ft_freestats(NULL, stats, bpath);
 	return (fldt);
 }

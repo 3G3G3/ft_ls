@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:43:56 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/09 18:06:05 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/12 17:23:57 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ void		ft_freefldt(t_filedata *fldt)
 		free(fldt->path);
 	if (fldt->rights != NULL)
 		free(fldt->rights);
+	if (fldt->uid != NULL)
+		free(fldt->uid);
+	if (fldt->gid != NULL)
+		free(fldt->gid);
 	free(fldt);
 	fldt = NULL;
 }

@@ -2,6 +2,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
+#include <pwd.h>
+#include <grp.h>
+#include <uuid/uuid.h>
 #include <stdio.h>
 #include "libft.h"
 
@@ -15,6 +18,11 @@ typedef	struct		s_filedata
 	char			*name;
 	char			*rights;
 	time_t			abs_time;
+	nlink_t			nlinks;
+	char 			*uid;
+	char			*gid;
+	off_t			size;
+	blkcnt_t		nblocks;
 }					t_filedata;
 
 int			ft_getindexfirstpath(int argc, char **argv);
@@ -29,13 +37,15 @@ int			ft_getlastslash(char *str);
 
 t_list		*ft_createelem(char *path);
 
-void		ft_putfldt(t_filedata *fldt); // pourra être supprimée à terme
+void		ft_putfldt(t_filedata *fldt, char *opts); // pourra être supprimée à terme
 
-void		ft_putfldtlst(t_list *lst);
+void		ft_putfldtlst(t_list *lst, char *opts);
+
+t_filedata	*ft_getlongopt(t_filedata *fldt, t_stat * stats);
 
 void		ft_convertrights(t_stat *stats, char *rights);
 
-t_filedata	* ft_getstat0(struct dirent *dir, char *path);
+t_filedata	*ft_getstat0(struct dirent *dir, char *path, char *opts);
 
 void		ft_freefldt(t_filedata *fldt);
 

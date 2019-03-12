@@ -1,11 +1,11 @@
 #include "ft_ls.h"
 
-t_list			*ft_fldt_listnew(struct dirent *dir, char *fdir)
+t_list			*ft_fldt_listnew(struct dirent *dir, char *fdir, char *opts)
 {
 	t_filedata		*fldt;
 	t_list			*res;
 
-	fldt = ft_getstat0(dir, fdir);
+	fldt = ft_getstat0(dir, fdir, opts);
 	if (fldt == NULL)
 		return (NULL);
 	fldt->dir = ft_strdup(fdir);
@@ -36,12 +36,12 @@ t_list			*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts)
 		ft_putendl("there");
 		return (NULL);
 	}
-	res = ft_fldt_listnew(dir, fdir);
+	res = ft_fldt_listnew(dir, fdir, opts);
 	while ((dir = readdir(fd_dir)) != NULL)
 	{
 		if (opts[2] == 'a' || (dir->d_name)[0] != '.')
 		{
-			tmp_res = ft_fldt_listnew(dir, fdir);
+			tmp_res = ft_fldt_listnew(dir, fdir, opts);
 			if (tmp_res == NULL)
 			{
 				ft_freelst(&res);
@@ -83,7 +83,7 @@ int				ft_readlvln(t_list *files, char *opts)
 			}
 			lvln = ft_readlvl0(fd_dir, path, opts);
 			closedir(fd_dir);
-			ft_putfldtlst(lvln);
+			ft_putfldtlst(lvln, opts);
 			ft_readlvln(lvln, opts);
 			ft_freelst(&lvln);
 			free(path);
@@ -109,7 +109,9 @@ void		ft_readinput(t_list *dir_lst, char *opts, char ftype)
 			((((t_filedata *)(dir_lst->content))->rights)[0] == 'l' && ftype == 'd'))// ||
 //			((((t_filedata *)(dir_lst->content))->rights)[0] == 'd' && ftype == 'l'))
 		{
-			ft_putendl(((t_filedata *)(dir_lst->content))->input_name);
+			ft_putstr(((t_filedata *)(dir_lst->content))->input_name);
+			ft_putendl(":");
+			ft_putllong(((t_filedata *)(dir_lst->content))->nblocks);
 			if (ftype == 'd' || ftype == 'l')
 			{
 				fd = opendir(((t_filedata *)(dir_lst->content))->path);
@@ -123,7 +125,7 @@ void		ft_readinput(t_list *dir_lst, char *opts, char ftype)
 				if (lvl0 == NULL)
 					return ;
 				closedir(fd);
-				ft_putfldtlst(lvl0);
+				ft_putfldtlst(lvl0, opts);
 				if (opts[1] == 'R')
 					ft_readlvln(lvl0, opts);
 				ft_freelst(&lvl0);
@@ -188,5 +190,8 @@ int			main(int argc, char **argv)
 }
 
 /*
-## repertoire sans les droits?
+* repertoire sans les droits?
+* date si plus vieux que 6 mois,...
+* attributs etendus
+* block special minor/ major?
 */

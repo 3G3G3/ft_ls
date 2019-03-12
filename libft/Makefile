@@ -6,7 +6,7 @@
 #    By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/13 16:40:34 by grgauthi          #+#    #+#              #
-#    Updated: 2018/12/18 13:44:56 by grgauthi         ###   ########.fr        #
+#    Updated: 2019/03/12 19:14:20 by grgauthi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,9 @@ SRC =		ft_memset.c		\
 			ft_lstdelstr.c	\
 			ft_lstiscs.c	\
 			ft_lstiscs_del.c\
-			ft_lstfindone.c
+			ft_lstfindone.c	\
+			ft_putlong.c	\
+			ft_putllong.c
 
 OBJ =		$(SRC:.c=.o)
 

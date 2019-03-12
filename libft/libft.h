@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 17:07:24 by grgauthi          #+#    #+#             */
-/*   Updated: 2018/12/18 11:49:44 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/12 19:15:22 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,5 +175,9 @@ void				ft_lstiscs_del(t_list **lst, size_t content_size,
 
 t_list				*ft_lstfindone(t_list *lst, int n,
 												int (*fone)(t_list *, size_t));
+
+void				ft_putlong(long n);
+
+void				ft_putllong(long long n);
 
 #endif
