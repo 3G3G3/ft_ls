@@ -14,11 +14,17 @@ SRCS = ft_longopt.c		\
 		ft_getstats.c		\
 		ft_tools.c			\
 		ft_putlfldt.c		\
+		ft_putdate.c		\
+		ft_putsizes.c		\
+		ft_puttools.c		\
 		ft_free.c			\
 		ft_lstsortedadd.c	\
 		ft_parseopts.c		\
 		ft_parsepath.c		\
 		ft_exists.c			\
+		ft_readtools.c		\
+		ft_readlvl.c		\
+		ft_read.c			\
 		main.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRCS))

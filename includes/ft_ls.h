@@ -51,7 +51,19 @@ int			ft_getlastslash(char *str);
 
 t_list		*ft_createelem(char *path);
 
-void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes); // pourra être supprimée à terme
+size_t		ft_uintlen(unsigned int n);
+
+void		ft_getuint(unsigned int n, char *buf);
+
+size_t		ft_llen(long n);
+
+void		ft_getl(long n, char *buf);
+
+void		ft_getdate(time_t tm, char *buf);
+
+t_len		*ft_getsizes(t_list *lst);
+
+void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes);
 
 void		ft_putfldtlst(t_list *lst, char *opts);
 
@@ -61,7 +73,7 @@ void		ft_convertrights(t_stat *stats, char *rights);
 
 t_filedata	*ft_getstat0(struct dirent *dir, char *path, char *opts);
 
-void		ft_freefldt(t_filedata *fldt);
+void		ft_freefldt(t_filedata **fldt);
 
 void		ft_freelst(t_list **elem);
 
@@ -72,3 +84,13 @@ char		*ft_parseopts(int argc, char **argv);
 t_list		*ft_readpathinput(int argc, char **argv, char *opts);
 
 t_list		*ft_exists(t_list *lst);
+
+t_list		*ft_fldt_listnew(struct dirent *dir, char *fdir, char *opts);
+
+DIR			*ft_opendir(char *path);
+
+t_list		*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts);
+
+void		ft_readlvln(t_list *files, char *opts);
+
+void		ft_readinput(t_list *dir_lst, char *opts, char ftype);

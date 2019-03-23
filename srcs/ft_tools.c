@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 15:03:50 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/09 18:16:36 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:31:54 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ t_list		*ft_createelem(char *path)
 		return (NULL);
 	if ((res = ft_lstnew(fldt, sizeof(t_filedata))) == NULL)
 	{
-		ft_freefldt(fldt);
+		ft_freefldt(&fldt);
 		return (NULL);
 	}
-	ft_freefldt(fldt);
+	ft_freefldt(&fldt);
 	fldt = (t_filedata *)(res->content);
 	if ((tmp = ft_getdirnfile(path)) == NULL)
 		free(res);

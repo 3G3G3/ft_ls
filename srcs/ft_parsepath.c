@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 15:35:33 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/09 18:16:38 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:29:04 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,8 @@ t_list		*ft_readpathinput(int argc, char **argv, char *opts)
 {
 	int			i;
 	t_list		*res;
-//	t_filedata	*fldt;
 
 	i = ft_getindexfirstpath(argc, argv);
-//	fldt = (t_filedata *)ft_memalloc(sizeof(t_filedata));
-//	if (fldt == NULL)
-//		return (NULL);
 	if (i == argc)
 		return (ft_createelem("./\0"));
 	res = ft_createelem(argv[i]);

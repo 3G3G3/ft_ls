@@ -6,13 +6,13 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:23:43 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/12 19:46:54 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:39:11 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		ft_pexists(char *path, t_filedata *fldt)
+int			ft_pexists(char *path, t_filedata *fldt)
 {
 	t_stat		*stats;
 
@@ -24,6 +24,9 @@ int		ft_pexists(char *path, t_filedata *fldt)
 		return (0);
 	if (lstat(path, stats) == -1)
 	{
+		ft_putstr("ft_ls: ");
+		ft_putstr(path);
+		ft_putendl(": No such file or directory");
 		fldt->abs_time = 0;
 		free(stats);
 		return (0);
@@ -48,10 +51,9 @@ void		ft_freeunvalid(t_list **lst)
 								((t_filedata *)((*lst)->content))) == 0)
 	{
 		*lst = (*lst)->next;
-		ft_freefldt((t_filedata *)(tmpc->content));
+		ft_freefldt((t_filedata **)(&(tmpc->content)));
 		free(tmpc);
 		tmpc = *lst;
-		ft_putendl("wrong file");
 	}
 }
 
@@ -74,9 +76,8 @@ t_list		*ft_exists(t_list *lst)
 		if (fldt->abs_time == 0)
 		{
 			tmpm->next = lst;
-			ft_freefldt((t_filedata *)(tmpc->content));
+			ft_freefldt((t_filedata **)(&(tmpc->content)));
 			free(tmpc);
-			ft_putendl("wrong files");
 		}
 		else
 			tmpm = tmpc;

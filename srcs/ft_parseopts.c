@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:44:31 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/09 17:41:14 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/23 19:48:25 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ char		*ft_getopt(char input, char *buf)
 		buf[4] = 't';
 	else
 	{
+		ft_putstr("ft_ls: illegal option -- ");
 		ft_putchar(input);
-		ft_putendl(": illegal option");
+		ft_putendl("\nusage: [-alrRt] [files ...]");
+		free(buf);
+		return (NULL);
 	}
 	return (buf);
 }
@@ -57,7 +60,7 @@ char		*ft_parseopts(int argc, char **argv)
 	if (opts == NULL)
 		return (NULL);
 	i = 1;
-	while (i < argc && argv[i][0] == '-')
+	while (i < argc && argv[i][0] == '-' && opts != NULL)
 	{
 		opts = ft_readopt(argv[i], opts);
 		i++;
