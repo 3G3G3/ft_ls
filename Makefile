@@ -13,7 +13,7 @@ LIBFT = $(LIBFT_PATH)libft.a
 SRCS = ft_longopt.c		\
 		ft_getstats.c		\
 		ft_tools.c			\
-		ft_putfldt.c		\
+		ft_putlfldt.c		\
 		ft_free.c			\
 		ft_lstsortedadd.c	\
 		ft_parseopts.c		\

@@ -10,6 +10,17 @@
 
 typedef struct stat t_stat;
 
+typedef	struct		s_len
+{
+	size_t		lnlinks;
+	size_t		luid;
+	size_t		lgid;
+	size_t		lsize;
+	size_t		lmajor;
+	size_t		lminor;
+	blksize_t	nblocks;
+}					t_len;
+
 typedef	struct		s_filedata
 {
 	char			*input_name;
@@ -22,7 +33,10 @@ typedef	struct		s_filedata
 	char 			*uid;
 	char			*gid;
 	off_t			size;
-	blkcnt_t		nblocks;
+	blksize_t		nblocks;
+	char			*pfile;
+	unsigned int	spmaj;
+	unsigned int	spmin;
 }					t_filedata;
 
 int			ft_getindexfirstpath(int argc, char **argv);
@@ -37,11 +51,11 @@ int			ft_getlastslash(char *str);
 
 t_list		*ft_createelem(char *path);
 
-void		ft_putfldt(t_filedata *fldt, char *opts); // pourra être supprimée à terme
+void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes); // pourra être supprimée à terme
 
 void		ft_putfldtlst(t_list *lst, char *opts);
 
-t_filedata	*ft_getlongopt(t_filedata *fldt, t_stat * stats);
+t_filedata	*ft_getlongopt(t_filedata *fldt, t_stat * stats, char *path);
 
 void		ft_convertrights(t_stat *stats, char *rights);
 

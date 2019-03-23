@@ -180,4 +180,6 @@ void				ft_putlong(long n);
 
 void				ft_putllong(long long n);
 
+char				*ft_convert_base(char *nbr, char *base_from, char *base_to);
+
 #endif

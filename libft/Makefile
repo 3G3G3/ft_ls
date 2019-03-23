@@ -85,7 +85,8 @@ SRC =		ft_memset.c		\
 			ft_lstiscs_del.c\
 			ft_lstfindone.c	\
 			ft_putlong.c	\
-			ft_putllong.c
+			ft_putllong.c	\
+			ft_convert_base.c
 
 OBJ =		$(SRC:.c=.o)
 

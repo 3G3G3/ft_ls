@@ -33,7 +33,7 @@ t_list			*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts)
 		dir = readdir(fd_dir);
 	if (dir == NULL)
 	{
-		ft_putendl("there");
+		perror("ft_ls: readlvl0");
 		return (NULL);
 	}
 	res = ft_fldt_listnew(dir, fdir, opts);
@@ -48,9 +48,21 @@ t_list			*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts)
 				return (NULL);
 			}
 			ft_lstsortedadd(&res, tmp_res, opts);
-			//		ft_putfldtlst(res);
-			//		ft_lstadd(&res, tmp_res);
 		}
+	}
+	return (res);
+}
+
+DIR			*ft_opendir(char *path)
+{
+	DIR		*res;
+
+	res = opendir(path);
+	if (res == NULL)
+	{
+		ft_putstr(path);
+		ft_putendl(":");
+		perror("ft_ls");
 	}
 	return (res);
 }
@@ -74,18 +86,17 @@ int				ft_readlvln(t_list *files, char *opts)
 			path = ft_buildpath((t_filedata *)(files->content));
 			if (path == NULL)
 				return (0);
-			fd_dir = opendir(path);
-			if (fd_dir == NULL)
+			fd_dir = ft_opendir(path);
+			if (fd_dir != NULL)
 			{
-				free(path);
-				ft_putendl("ici");
-				return (0);
+				lvln = ft_readlvl0(fd_dir, path, opts);
+				closedir(fd_dir);
+				ft_putstr(path);
+				ft_putendl(":");
+				ft_putfldtlst(lvln, opts);
+				ft_readlvln(lvln, opts);
+				ft_freelst(&lvln);
 			}
-			lvln = ft_readlvl0(fd_dir, path, opts);
-			closedir(fd_dir);
-			ft_putfldtlst(lvln, opts);
-			ft_readlvln(lvln, opts);
-			ft_freelst(&lvln);
 			free(path);
 		}
 		files = files->next;
@@ -94,27 +105,34 @@ int				ft_readlvln(t_list *files, char *opts)
 }
 
 /*
-   attention aux protections et liberations
-   */
+** attention aux protections et liberations
+*/
 
 void		ft_readinput(t_list *dir_lst, char *opts, char ftype)
 {
 	DIR					*fd;
 	t_list				*lvl0;
 	char				*path;
+	int					p;
 
+	p = 1;
+	if (dir_lst->next == NULL)
+		p = -1;
 	while (dir_lst != NULL)
 	{
 		if (((((t_filedata *)(dir_lst->content))->rights)[0] == ftype && ftype != 'l') ||
 			((((t_filedata *)(dir_lst->content))->rights)[0] == 'l' && ftype == 'd'))// ||
 //			((((t_filedata *)(dir_lst->content))->rights)[0] == 'd' && ftype == 'l'))
 		{
-			ft_putstr(((t_filedata *)(dir_lst->content))->input_name);
-			ft_putendl(":");
-			ft_putllong(((t_filedata *)(dir_lst->content))->nblocks);
+//			ft_putnbrendl(((t_filedata *)(dir_lst->content))->nblocks);
+			if (p == 1)
+			{
+				ft_putstr(((t_filedata *)(dir_lst->content))->input_name);
+				ft_putendl(":");
+			}
 			if (ftype == 'd' || ftype == 'l')
 			{
-				fd = opendir(((t_filedata *)(dir_lst->content))->path);
+				fd = ft_opendir(((t_filedata *)(dir_lst->content))->path);
 				if (fd == NULL)
 					return ;
 				path = ft_normpath(((t_filedata *)(dir_lst->content))->path);
@@ -129,6 +147,8 @@ void		ft_readinput(t_list *dir_lst, char *opts, char ftype)
 				if (opts[1] == 'R')
 					ft_readlvln(lvl0, opts);
 				ft_freelst(&lvl0);
+				if (dir_lst->next != NULL)
+					ft_putchar('\n');
 			}
 		}
 		dir_lst = dir_lst->next;
@@ -190,8 +210,7 @@ int			main(int argc, char **argv)
 }
 
 /*
-* repertoire sans les droits?
-* date si plus vieux que 6 mois,...
-* attributs etendus
-* block special minor/ major?
+** attributs etendus
+** erreur dans la boucle dans -R /dev
+** liberations et protections
 */

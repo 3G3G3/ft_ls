@@ -30,7 +30,6 @@ int		ft_pexists(char *path, t_filedata *fldt)
 	}
 	fldt->abs_time = stats->st_mtime;
 	ft_convertrights(stats, fldt->rights);
-	fldt->nblocks = stats->st_blocks;
 	free(stats);
 	return (1);
 }

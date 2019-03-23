@@ -1,6 +1,6 @@
 #include "ft_ls.h"
 
-t_filedata		*ft_getlongopt(t_filedata *fldt, t_stat *stats)
+t_filedata		*ft_getlongopt(t_filedata *fldt, t_stat *stats, char *path)
 {
 	struct passwd	*uid;
 	struct group	*gid;
@@ -17,6 +17,12 @@ t_filedata		*ft_getlongopt(t_filedata *fldt, t_stat *stats)
 	{
 		free(fldt->uid);
 		return (NULL);
+	}
+	if ((fldt->rights)[0] == 'l')
+	{
+		fldt->pfile = ft_strnew(63);
+		if (readlink(path, fldt->pfile, 63) == -1)
+			perror("Error reading link by readlink");
 	}
 	return (fldt);
 }

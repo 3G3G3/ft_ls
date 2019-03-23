@@ -12,20 +12,62 @@
 
 #include "ft_ls.h"
 
-void	ft_putdate(time_t tm)
+void	ft_putddyyyy(char *date)
 {
 	int		i;
-	char  *date;
 
-	i = 4;
-	date = ctime(&tm);
-	if (date == NULL)
-		return ;
-	while(i <= 15)
+	i = 0;
+	while (i <= 10)
 	{
-		ft_putchar(date[i]);
+		if (i >= 8 && i <= 10)
+			ft_putchar(date[i]);
 		i++;
 	}
+	i = 4;
+	while (i <= 23)
+	{
+		if ((i >= 4 && i <= 7) || (i >= 19 && i <= 23))
+			ft_putchar(date[i]);
+		i++;
+	}
+}
+
+void	ft_putddmmhh(char *date)
+{
+	int		i;
+
+	i = 0;
+	while (i <= 10)
+	{
+		if (i >= 8 && i <= 10)
+			ft_putchar(date[i]);
+		i++;
+	}
+	i = 4;
+		while(i <= 15)
+		{
+			if (i <= 7 || i >= 11)
+				ft_putchar(date[i]);
+			i++;
+		}
+}
+
+void	ft_putdate(time_t tm)
+{
+	char		*date;
+	time_t		t;
+
+	date = ctime(&tm);
+	t = time(0);
+	if (date == NULL || t == -1)
+	{
+		perror("error asking for actual time in time()");
+		return ;
+	}
+	if (t - tm < 15552000)
+		ft_putddmmhh(date);
+	else
+		ft_putddyyyy(date);
 }
 
 void		ft_putfldt(t_filedata *fldt, char *opts)
@@ -47,7 +89,13 @@ void		ft_putfldt(t_filedata *fldt, char *opts)
 		//	ft_putstr(" : ");
 		//	ft_putnbr(fldt->abs_time);
 	}
-	ft_putendl(fldt->name);
+	ft_putstr(fldt->name);
+	if ((fldt->rights)[0] == 'l' && (opts)[0] == 'l')
+	{
+		ft_putstr(" -> ");
+		ft_putstr(fldt->pfile);
+	}
+	ft_putchar('\n');
 }
 
 void		ft_putfldtlst(t_list *lst, char *opts)

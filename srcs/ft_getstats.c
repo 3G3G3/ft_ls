@@ -44,10 +44,11 @@ void		ft_convertrights(t_stat *stats, char *rights)
 	rights[7] = ((stats->st_mode & S_IROTH) ? 'r' : '-');
 	rights[8] = ((stats->st_mode & S_IWOTH) ? 'w' : '-');
 	rights[9] = ((stats->st_mode & S_IXOTH) ? 'x' : '-');
+	rights[10] = ' ';
 }
 
 t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats,
-									char *opts)
+									char *opts, char *path)
 {
 	fldt->name = ft_strdup(dir->d_name);
 	if (fldt->name == NULL)
@@ -56,7 +57,7 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats,
 		free(fldt);
 		return (NULL);
 	}
-	fldt->rights = ft_strnew(10);
+	fldt->rights = ft_strnew(11);
 	if (fldt->rights == NULL)
 	{
 		ft_putendl("b");
@@ -67,9 +68,15 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats,
 	fldt->abs_time = stats->st_mtime;
 	ft_convertrights(stats, fldt->rights);
 	if (opts[0] == 'l')
-		ft_getlongopt(fldt, stats);
+		ft_getlongopt(fldt, stats, path);
 //	if (ft_getlongopt(fldt, stats) == NULL)
 	// free precent
+	fldt->nblocks = stats->st_blocks;
+	if ((fldt->rights)[0] == 'b' || (fldt->rights)[0] == 'c')
+	{
+		fldt->spmaj = (stats->st_rdev) >> 24;
+		fldt->spmin = (stats->st_rdev) & 0xFFFFFF;
+	}
 	return (fldt);
 }
 
@@ -102,7 +109,7 @@ t_filedata	*ft_getstat0(struct dirent *dir, char *fdir, char *opts)
 		ft_freestats(fldt, stats, bpath);
 		return (NULL);
 	}
-	fldt = ft_convertstat(fldt, dir, stats, opts);
+	fldt = ft_convertstat(fldt, dir, stats, opts, bpath);
 	ft_freestats(NULL, stats, bpath);
 	return (fldt);
 }

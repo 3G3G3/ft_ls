@@ -28,6 +28,8 @@ void		ft_freefldt(t_filedata *fldt)
 		free(fldt->uid);
 	if (fldt->gid != NULL)
 		free(fldt->gid);
+	if (fldt->pfile != NULL)
+		free(fldt->pfile);
 	free(fldt);
 	fldt = NULL;
 }
