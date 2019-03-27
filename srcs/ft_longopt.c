@@ -30,13 +30,13 @@ t_filedata		*ft_getlongopt(t_filedata *fldt, t_stat *stats, char *path)
 	if ((fldt->rights)[0] == 'l')
 	{
 		fldt->pfile = ft_strnew(63);
-		if (fldt->pfile == NULL)
+		if (fldt->pfile == NULL || readlink(path, fldt->pfile, 63) == -1)
 		{
 			ft_freefldt(&fldt);
+			if (readlink(path, fldt->pfile, 63) == -1)
+				perror("Error reading link by readlink");
 			return (NULL);
 		}
-		if (readlink(path, fldt->pfile, 63) == -1)
-			perror("Error reading link by readlink");
 	}
 	return (fldt);
 }

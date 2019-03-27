@@ -53,6 +53,13 @@ void			ft_putlvln(char *path, t_list *lvln, char *opts)
 {
 	ft_putstr(path);
 	ft_putendl(":");
+	if (lvln == NULL)
+	{
+		ft_putstr("ft_ls: ");
+		ft_putstr(path);
+		ft_putstr(": error reading lvln");
+		return ;
+	}
 	ft_putfldtlst(lvln, opts);
 	ft_readlvln(lvln, opts);
 }
@@ -77,7 +84,8 @@ void			ft_readlvln(t_list *files, char *opts)
 				lvln = ft_readlvl0(fd_dir, path, opts);
 				closedir(fd_dir);
 				ft_putlvln(path, lvln, opts);
-				ft_freelst(&lvln);
+				if (lvln != NULL)
+					ft_freelst(&lvln);
 			}
 			free(path);
 		}

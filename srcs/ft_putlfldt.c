@@ -64,9 +64,9 @@ void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes)
 	if (opts[0] == 'l')
 	{
 		buf = ft_strnew(ft_getbufsize(sizes));
-		ft_memset(buf, ' ', ft_getbufsize(sizes));
 		if (buf == NULL)
 			return ;
+		ft_memset(buf, ' ', ft_getbufsize(sizes));
 		ft_fillbuf(fldt, sizes, buf);
 		write(1, buf, ft_getbufsize(sizes));
 		free(buf);

@@ -25,6 +25,7 @@ SRCS = ft_longopt.c		\
 		ft_readtools.c		\
 		ft_readlvl.c		\
 		ft_read.c			\
+		ft_extattributes.c	\
 		main.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRCS))

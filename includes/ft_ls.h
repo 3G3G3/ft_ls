@@ -7,6 +7,7 @@
 #include <uuid/uuid.h>
 #include <stdio.h>
 #include "libft.h"
+#include <sys/xattr.h>
 
 typedef struct stat t_stat;
 
@@ -94,3 +95,5 @@ t_list		*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts);
 void		ft_readlvln(t_list *files, char *opts);
 
 void		ft_readinput(t_list *dir_lst, char *opts, char ftype);
+
+void		ft_putlistxattr(char *path);

@@ -113,6 +113,7 @@ t_filedata	*ft_getstat0(struct dirent *dir, char *fdir, char *opts)
 	}
 	fldt->path = bpath;
 	fldt = ft_convertstat(fldt, dir, stats, opts);
+	ft_putlistxattr(bpath);
 	ft_freestats(NULL, stats, NULL);
 	return (fldt);
 }
