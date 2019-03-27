@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 14:31:39 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/23 18:00:50 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/27 11:01:12 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,11 @@ t_filedata		*ft_getlongopt(t_filedata *fldt, t_stat *stats, char *path)
 			return (NULL);
 		}
 	}
+	return (fldt);
+}
+
+t_filedata		*ft_getinoopt(t_filedata *fldt, t_stat *stats)
+{
+	fldt->ino = stats->st_ino;
 	return (fldt);
 }

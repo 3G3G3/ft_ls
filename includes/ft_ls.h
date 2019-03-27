@@ -13,6 +13,7 @@ typedef struct stat t_stat;
 
 typedef	struct		s_len
 {
+	size_t		lino;
 	size_t		lnlinks;
 	size_t		luid;
 	size_t		lgid;
@@ -28,6 +29,7 @@ typedef	struct		s_filedata
 	char			*path;
 	char			*dir;
 	char			*name;
+	unsigned int	ino;
 	char			*rights;
 	time_t			abs_time;
 	nlink_t			nlinks;
@@ -62,7 +64,7 @@ void		ft_getl(long n, char *buf);
 
 void		ft_getdate(time_t tm, char *buf);
 
-t_len		*ft_getsizes(t_list *lst);
+t_len		*ft_getsizes(t_list *lst, char *opts);
 
 void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes);
 
@@ -95,5 +97,3 @@ t_list		*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts);
 void		ft_readlvln(t_list *files, char *opts);
 
 void		ft_readinput(t_list *dir_lst, char *opts, char ftype);
-
-void		ft_putlistxattr(char *path);

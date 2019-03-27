@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:51:29 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/23 19:28:17 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/27 12:05:13 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats,
 	ft_convertrights(stats, fldt->rights);
 	if (opts[0] == 'l' && ft_getlongopt(fldt, stats, fldt->path) == NULL)
 		return (NULL);
+	if (opts[5] == 'i')
+		fldt->ino = stats->st_ino;
 	fldt->nblocks = stats->st_blocks;
 	if ((fldt->rights)[0] == 'b' || (fldt->rights)[0] == 'c')
 	{
@@ -113,7 +115,6 @@ t_filedata	*ft_getstat0(struct dirent *dir, char *fdir, char *opts)
 	}
 	fldt->path = bpath;
 	fldt = ft_convertstat(fldt, dir, stats, opts);
-	ft_putlistxattr(bpath);
 	ft_freestats(NULL, stats, NULL);
 	return (fldt);
 }

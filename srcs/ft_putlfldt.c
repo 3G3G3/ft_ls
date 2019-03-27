@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 15:03:26 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/23 18:22:54 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/27 11:40:15 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		ft_fillbuf(t_filedata *fldt, t_len *sizes, char *buf)
 	ft_memcpy(buf + i, fldt->gid, ft_strlen(fldt->gid));
 	i = i + 2 + sizes->lgid;
 	if ((fldt->rights)[0] != 'c' && (fldt->rights)[0] != 'b')
-		ft_getl(fldt->size, buf + i + sizes->lsize - ft_llen(fldt->size));
+		ft_getl(fldt->size, buf + i + ft_maxsplen(sizes) - ft_llen(fldt->size));
 	else
 	{
 		ft_getuint(fldt->spmaj,
@@ -61,6 +61,12 @@ void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes)
 {
 	char	*buf;
 
+	if (opts[5] == 'i')
+	{
+		write(1, "                   ", sizes->lino - ft_uintlen(fldt->ino));
+		ft_putuint(fldt->ino);
+		ft_putchar(' ');
+	}
 	if (opts[0] == 'l')
 	{
 		buf = ft_strnew(ft_getbufsize(sizes));
@@ -84,14 +90,17 @@ void		ft_putfldtlst(t_list *lst, char *opts)
 {
 	t_len		*sizes;
 
-	if (opts[0] == 'l')
+	if (opts[0] == 'l' || opts[5] == 'i')
 	{
-		sizes = ft_getsizes(lst);
+		sizes = ft_getsizes(lst, opts);
 		if (sizes == NULL)
 			return ;
-		ft_putstr("total ");
-		ft_putllong(sizes->nblocks);
-		ft_putchar('\n');
+		if (opts[0] == 'l')
+		{
+			ft_putstr("total ");
+			ft_putllong(sizes->nblocks);
+			ft_putchar('\n');
+		}
 	}
 	else
 		sizes = NULL;

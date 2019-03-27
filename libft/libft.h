@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 17:07:24 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/12 19:15:22 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/03/27 11:33:50 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,9 @@ void				ft_putlong(long n);
 
 void				ft_putllong(long long n);
 
+void				ft_putuint(unsigned int n);
+
 char				*ft_convert_base(char *nbr, char *base_from, char *base_to);
 
+size_t				ft_maxsizet(size_t m, size_t n);
 #endif

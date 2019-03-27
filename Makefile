@@ -5,8 +5,7 @@ LIBFT_PATH = ./libft/
 INC_PATH = ./includes/
 
 CC = gcc
-DEBUG_FLAGS = -g #-fsanitize=address
-#DEBUG_FLAGS =  
+DEBUG_FLAGS = -g
 CFLAGS = -Wall -Werror -Wextra -I $(INC_PATH) -I $(LIBFT_PATH) -g3
 
 LIBFT = $(LIBFT_PATH)libft.a
@@ -25,7 +24,6 @@ SRCS = ft_longopt.c		\
 		ft_readtools.c		\
 		ft_readlvl.c		\
 		ft_read.c			\
-		ft_extattributes.c	\
 		main.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRCS))

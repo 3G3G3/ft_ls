@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_maxsizet.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/17 17:15:16 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 13:26:20 by grgauthi         ###   ########.fr       */
+/*   Created: 2019/03/27 11:22:52 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/03/27 11:34:44 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putllong(long long nb)
+size_t		ft_maxsizet(size_t n, size_t m)
 {
-	if (nb < 0)
-	{
-		ft_putchar('-');
-		if (-(nb / 10) != 0)
-			ft_putnbr(-(nb / 10));
-		ft_putchar(-(nb % 10) + '0');
-	}
-	else
-	{
-		if (nb < 10)
-			ft_putchar(nb + '0');
-		else
-		{
-			ft_putnbr(nb / 10);
-			ft_putchar(nb % 10 + '0');
-		}
-	}
+	if (n > m)
+		return (n);
+	return (m);
 }

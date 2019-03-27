@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_putuint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/17 17:15:16 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 13:26:20 by grgauthi         ###   ########.fr       */
+/*   Created: 2019/03/27 11:07:27 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/03/27 11:11:49 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putllong(long long nb)
+void	ft_putuint(unsigned int nb)
 {
-	if (nb < 0)
-	{
-		ft_putchar('-');
-		if (-(nb / 10) != 0)
-			ft_putnbr(-(nb / 10));
-		ft_putchar(-(nb % 10) + '0');
-	}
+	if (nb < 10)
+		ft_putchar(nb + '0');
 	else
 	{
-		if (nb < 10)
-			ft_putchar(nb + '0');
-		else
-		{
-			ft_putnbr(nb / 10);
-			ft_putchar(nb % 10 + '0');
-		}
+		ft_putnbr(nb / 10);
+		ft_putchar(nb % 10 + '0');
 	}
 }
