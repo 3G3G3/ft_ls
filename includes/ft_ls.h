@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/06 14:41:58 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/04/06 19:37:36 by grgauthi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_LS_H
 # define FT_LS_H
 
@@ -13,12 +25,13 @@
 # include <sys/xattr.h>
 # include <errno.h>
 
-#ifndef OUTPUT
-# define OUTPUT
-int					g_output;
-#endif
+# ifndef OUTPUT
+#  define OUTPUT
 
-typedef struct stat t_stat;
+int					g_output;
+# endif
+
+typedef struct stat	t_stat;
 
 typedef	struct		s_len
 {
@@ -42,7 +55,7 @@ typedef	struct		s_filedata
 	char			*rights;
 	time_t			abs_time;
 	nlink_t			nlinks;
-	char 			*uid;
+	char			*uid;
 	char			*gid;
 	off_t			size;
 	blksize_t		nblocks;
@@ -51,60 +64,64 @@ typedef	struct		s_filedata
 	unsigned int	spmin;
 }					t_filedata;
 
-int			ft_getindexfirstpath(int argc, char **argv);
+int					ft_getindexfirstpath(int argc, char **argv);
 
-char		*ft_normpath(char *path);
+char				*ft_normpath(char *path);
 
-char		*ft_buildpath(t_filedata *fldt);
+char				*ft_buildpath(t_filedata *fldt);
 
-char		**ft_getdirnfile(char *str);
+char				**ft_getdirnfile(char *str);
 
-int			ft_getlastslash(char *str);
+int					ft_getlastslash(char *str);
 
-t_list		*ft_createelem(char *path);
+t_list				*ft_createelem(char *path);
 
-size_t		ft_uintlen(unsigned int n);
+size_t				ft_uintlen(unsigned int n);
 
-void		ft_getuint(unsigned int n, char *buf);
+void				ft_getuint(unsigned int n, char *buf);
 
-size_t		ft_llen(long n);
+size_t				ft_llen(long n);
 
-void		ft_getl(long n, char *buf);
+void				ft_getl(long n, char *buf);
 
-void		ft_getdate(time_t tm, char *buf);
+void				ft_getdate(time_t tm, char *buf);
 
-t_len		*ft_getsizes(t_list *lst, char *opts);
+t_len				*ft_getsizes(t_list *lst, char *opts);
 
-void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes);
+void				ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes);
 
-void		ft_putfldtlst(t_list *lst, char *opts);
+void				ft_putfldtlst(t_list *lst, char *opts);
 
-t_filedata	*ft_getlongopt(t_filedata *fldt, t_stat * stats, char *path);
+t_filedata			*ft_getlongopt(t_filedata *fldt, t_stat *stats, char *path);
 
-void		ft_convertrights(t_stat *stats, char *rights);
+void				ft_convertrights(t_stat *stats, char *rights);
 
-t_filedata	*ft_getstat0(struct dirent *dir, char *path, char *opts);
+t_filedata			*ft_convertstats(t_filedata *fldt,
+										t_stat *stats, char *opts);
 
-void		ft_freefldt(t_filedata **fldt);
+t_filedata			*ft_getstat0(struct dirent *dir, char *path, char *opts);
 
-void		ft_freelst(t_list **elem);
+void				ft_freefldt(t_filedata **fldt);
 
-void		ft_lstsortedadd(t_list **lst, t_list *elem, char *opts);
+void				ft_freelst(t_list **elem);
 
-char		*ft_parseopts(int argc, char **argv);
+void				ft_lstsortedadd(t_list **lst, t_list *elem, char *opts);
 
-t_list		*ft_readpathinput(int argc, char **argv, char *opts);
+char				*ft_parseopts(int argc, char **argv);
 
-t_list		*ft_exists(t_list *lst);
+t_list				*ft_readpathinput(int argc, char **argv, char *opts);
 
-t_list		*ft_fldt_listnew(struct dirent *dir, char *fdir, char *opts);
+t_list				*ft_exists(t_list *lst);
 
-DIR			*ft_opendir(char *path);
+t_list				*ft_fldt_listnew(struct dirent *dir, char *fdir,
+														char *opts);
 
-t_list		*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts);
+DIR					*ft_opendir(char *path);
 
-void		ft_readlvln(t_list *files, char *opts);
+t_list				*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts);
 
-void		ft_readinput(t_list *dir_lst, char *opts, char ftype);
+void				ft_readlvln(t_list *files, char *opts);
+
+void				ft_readinput(t_list *dir_lst, char *opts, char ftype);
 
 #endif

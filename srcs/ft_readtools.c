@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 17:21:33 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/23 19:28:44 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 17:41:27 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ DIR				*ft_opendir(char *path)
 	res = opendir(path);
 	if (res == NULL)
 	{
-//		ft_putstr(path);
-//		ft_putendl(":");
 		err_msg = ft_strjoin("ft_ls: ", path);
 		if (err_msg == NULL)
 			return (NULL);

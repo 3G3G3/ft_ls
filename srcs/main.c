@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 16:17:51 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 10:53:49 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 19:58:16 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			main(int argc, char **argv)
 	char				*opts;
 	t_list				*dir_lst;
 
-	types = "-dlbcsp";
+	types = "-clbspd";
 	g_output = 0;
 	opts = ft_parseopts(argc, argv);
 	if (opts == NULL)
@@ -51,9 +51,3 @@ int			main(int argc, char **argv)
 	ft_freelst(&dir_lst);
 	return (g_output);
 }
-
-/*
-** attributs etendus
-** erreur dans la boucle dans -R /dev
-** liberations et protections
-*/

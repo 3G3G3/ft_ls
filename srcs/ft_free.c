@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:43:56 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/23 19:31:06 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:56:33 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void		ft_freefldt(t_filedata **fldt)
 {
+	if (fldt == NULL || *fldt == NULL)
+		return ;
 	if ((*fldt)->input_name != NULL)
 		free((*fldt)->input_name);
 	if ((*fldt)->dir != NULL)

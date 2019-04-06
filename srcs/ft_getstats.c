@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:51:29 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 12:05:13 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:05:24 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,8 @@ void		ft_convertrights(t_stat *stats, char *rights)
 	rights[10] = ' ';
 }
 
-t_filedata	*ft_convertstat(t_filedata *fldt, struct dirent *dir, t_stat *stats,
-		char *opts)
+t_filedata	*ft_convertstats(t_filedata *fldt, t_stat *stats, char *opts)
 {
-	fldt->name = ft_strdup(dir->d_name);
 	fldt->rights = ft_strnew(11);
 	if (fldt->name == NULL || fldt->rights == NULL)
 	{
@@ -108,14 +106,15 @@ t_filedata	*ft_getstat0(struct dirent *dir, char *fdir, char *opts)
 		ft_freestats(fldt, stats, bpath);
 		return (NULL);
 	}
-	if (lstat(bpath, stats) == -1)
+	fldt->name = ft_strdup(dir->d_name);
+	if (lstat(bpath, stats) == -1 || fldt->name == NULL)
 	{
 		ft_freestats(fldt, stats, bpath);
 		g_output = 2;
 		return (NULL);
 	}
 	fldt->path = bpath;
-	fldt = ft_convertstat(fldt, dir, stats, opts);
+	fldt = ft_convertstats(fldt, stats, opts);
 	ft_freestats(NULL, stats, NULL);
 	return (fldt);
 }

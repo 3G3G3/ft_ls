@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 16:13:46 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 10:52:11 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 20:23:57 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,59 @@ void			ft_readdir(t_filedata *fldt, char *opts)
 	ft_freelst(&lvl0);
 }
 
+void			ft_del_readndir(char *path, t_stat *stats, t_len *size)
+{
+	if (path != NULL)
+		free(path);
+	if (stats != NULL)
+		free(stats);
+	if (size != NULL)
+		free(size);
+}
+
+void			ft_readndir(t_filedata *fldt, char *opts)
+{
+	char		*path;
+	t_stat		*stats;
+	t_len		*size;
+	t_list		*tmp;
+
+	path = ft_strjoin(fldt->dir, fldt->name);
+	stats = (t_stat *)ft_memalloc((sizeof(t_stat)));
+	size = NULL;
+	if (path == NULL || stats == NULL)
+		return (ft_del_readndir(path, stats, size));
+	if (lstat(path, stats) == -1)
+		return (ft_del_readndir(path, stats, size));
+	free(fldt->rights);
+	if ((fldt = ft_convertstats(fldt, stats, opts)) != NULL)
+	{
+		if ((tmp = ft_lstnew(fldt, sizeof(t_filedata))) != NULL)
+		{
+			if ((size = ft_getsizes(tmp, opts)) == NULL)
+				return (ft_del_readndir(path, stats, size));
+			ft_putfldt(fldt, opts, size);
+			free(tmp->content);
+			free(tmp);
+		}
+	}
+	ft_del_readndir(path, stats, size);
+}
+
 void			ft_readinput(t_list *dir_lst, char *opts, char ftype)
 {
-	int			p;
-
-	p = 1;
-	if (dir_lst->next == NULL)
-		p = -1;
 	while (dir_lst != NULL)
 	{
-		if (((((t_filedata *)(dir_lst->content))->rights)[0] == ftype &&
-				ftype != 'l') ||
-			((((t_filedata *)(dir_lst->content))->rights)[0] == 'l' &&
-				ftype == 'd'))
+		if ((((t_filedata *)(dir_lst->content))->rights)[0] == ftype)
 		{
-			if (p == 1 || (p == -1 && g_output == 1))
+			if (ftype == 'd')
 			{
 				ft_putstr(((t_filedata *)(dir_lst->content))->input_name);
 				ft_putendl(":");
-			}
-			if (ftype == 'd' || ftype == 'l')
 				ft_readdir((t_filedata *)(dir_lst->content), opts);
+			}
+			else
+				ft_readndir((t_filedata *)(dir_lst->content), opts);
 			if (dir_lst->next != NULL)
 				ft_putchar('\n');
 		}

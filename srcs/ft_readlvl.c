@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 17:09:46 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/23 17:41:17 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 18:32:35 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,17 @@ void			ft_putlvln(char *path, t_list *lvln, char *opts)
 	ft_readlvln(lvln, opts);
 }
 
+char			*ft_putheadline(t_filedata *fldt)
+{
+	char		*path;
+
+	ft_putstr("\n");
+	path = ft_buildpath(fldt);
+	ft_putstr(path);
+	ft_putendl(":");
+	return (path);
+}
+
 void			ft_readlvln(t_list *files, char *opts)
 {
 	DIR			*fd_dir;
@@ -75,10 +86,7 @@ void			ft_readlvln(t_list *files, char *opts)
 		if (ft_toexplore(files, opts) == 1 &&
 				(((t_filedata *)(files->content))->rights)[0] == 'd')
 		{
-			ft_putstr("\n");
-			path = ft_buildpath((t_filedata *)(files->content));
-			ft_putstr(path);
-			ft_putendl(":");
+			path = ft_putheadline((t_filedata *)(files->content));
 			if (path == NULL)
 				return ;
 			if ((fd_dir = ft_opendir(path)) != NULL)

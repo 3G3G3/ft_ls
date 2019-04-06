@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 15:35:33 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 12:21:54 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 20:23:48 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ t_list		*ft_addpath(t_list **lst, char *path, char *opts)
 		ft_freelst(lst);
 		return (NULL);
 	}
-	if (opts[3] == '-' && opts[4] == '-')
-		ft_lstsortedadd(lst, tmp, "----i");
-	else if (opts[3] == 'r' && opts[4] == '-')
-		ft_lstsortedadd(lst, tmp, "---ri");
-	else
+//	if (opts[3] == '-' && opts[4] == '-')
+//		ft_lstsortedadd(lst, tmp, "----i");
+//	else if (opts[3] == 'r' && opts[4] == '-')
+//		ft_lstsortedadd(lst, tmp, "---ri");
+//	else
 		ft_lstsortedadd(lst, tmp, opts);
 	return (*lst);
 }

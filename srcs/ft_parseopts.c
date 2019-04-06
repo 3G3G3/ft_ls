@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:44:31 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 11:41:09 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 20:08:19 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ char		*ft_parseopts(int argc, char **argv)
 	i = 1;
 	while (i < argc && argv[i][0] == '-' && opts != NULL)
 	{
-		
 		if (ft_strcmp(argv[i], "--") != 0)
 			opts = ft_readopt(argv[i], opts);
 		i++;

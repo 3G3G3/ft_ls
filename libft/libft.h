@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 17:07:24 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 11:33:50 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/06 14:49:33 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 # include <fcntl.h>
 # include <string.h>
 
-#ifndef OUTPUT
-# define OUTPUT
+# ifndef OUTPUT
+#  define OUTPUT
+
 int					g_output;
-#endif
+# endif
 
 typedef struct		s_list
 {
