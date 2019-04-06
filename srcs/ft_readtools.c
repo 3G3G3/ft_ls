@@ -15,13 +15,20 @@
 DIR				*ft_opendir(char *path)
 {
 	DIR		*res;
+	char	*err_msg;
 
 	res = opendir(path);
 	if (res == NULL)
 	{
-		ft_putstr(path);
-		ft_putendl(":");
-		perror("ft_ls");
+//		ft_putstr(path);
+//		ft_putendl(":");
+		err_msg = ft_strjoin("ft_ls: ", path);
+		if (err_msg == NULL)
+			return (NULL);
+		if (errno == 13)
+			g_output = 1;
+		perror(err_msg);
+		free(err_msg);
 	}
 	return (res);
 }

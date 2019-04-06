@@ -18,14 +18,14 @@ t_list			*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts)
 	t_list				*res;
 	t_list				*tmp_res;
 
+	errno = 0;
 	dir = readdir(fd_dir);
 	while (dir != NULL && !(opts[2] == 'a' || (dir->d_name)[0] != '.'))
 		dir = readdir(fd_dir);
+	if (dir == NULL && errno != 0)
+		g_output = 2;
 	if (dir == NULL)
-	{
-		perror("ft_ls: readlvl0");
 		return (NULL);
-	}
 	res = ft_fldt_listnew(dir, fdir, opts);
 	while ((dir = readdir(fd_dir)) != NULL && res != NULL)
 	{
@@ -51,15 +51,15 @@ int				ft_toexplore(t_list *files, char *opts)
 
 void			ft_putlvln(char *path, t_list *lvln, char *opts)
 {
-	ft_putstr(path);
-	ft_putendl(":");
-	if (lvln == NULL)
+	if (lvln == NULL && errno != 0)
 	{
 		ft_putstr("ft_ls: ");
 		ft_putstr(path);
 		ft_putstr(": error reading lvln");
 		return ;
 	}
+	if (lvln == NULL)
+		return ;
 	ft_putfldtlst(lvln, opts);
 	ft_readlvln(lvln, opts);
 }
@@ -77,6 +77,8 @@ void			ft_readlvln(t_list *files, char *opts)
 		{
 			ft_putstr("\n");
 			path = ft_buildpath((t_filedata *)(files->content));
+			ft_putstr(path);
+			ft_putendl(":");
 			if (path == NULL)
 				return ;
 			if ((fd_dir = ft_opendir(path)) != NULL)

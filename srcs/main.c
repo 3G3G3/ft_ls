@@ -31,14 +31,15 @@ int			main(int argc, char **argv)
 	t_list				*dir_lst;
 
 	types = "-dlbcsp";
+	g_output = 0;
 	opts = ft_parseopts(argc, argv);
 	if (opts == NULL)
-		return (-1);
+		return (1);
 	dir_lst = ft_getlst(argc, argv, opts);
 	if (dir_lst == NULL)
 	{
 		free(opts);
-		return (-1);
+		return (1);
 	}
 	i = 0;
 	while (types[i])
@@ -48,6 +49,7 @@ int			main(int argc, char **argv)
 	}
 	free(opts);
 	ft_freelst(&dir_lst);
+	return (g_output);
 }
 
 /*

@@ -18,6 +18,11 @@
 # include <fcntl.h>
 # include <string.h>
 
+#ifndef OUTPUT
+# define OUTPUT
+int					g_output;
+#endif
+
 typedef struct		s_list
 {
 	void			*content;

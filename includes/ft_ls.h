@@ -1,13 +1,22 @@
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <time.h>
-#include <pwd.h>
-#include <grp.h>
-#include <uuid/uuid.h>
-#include <stdio.h>
-#include "libft.h"
-#include <sys/xattr.h>
+#ifndef FT_LS_H
+# define FT_LS_H
+
+# include <dirent.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <time.h>
+# include <pwd.h>
+# include <grp.h>
+# include <uuid/uuid.h>
+# include <stdio.h>
+# include "libft.h"
+# include <sys/xattr.h>
+# include <errno.h>
+
+#ifndef OUTPUT
+# define OUTPUT
+int					g_output;
+#endif
 
 typedef struct stat t_stat;
 
@@ -97,3 +106,5 @@ t_list		*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts);
 void		ft_readlvln(t_list *files, char *opts);
 
 void		ft_readinput(t_list *dir_lst, char *opts, char ftype);
+
+#endif

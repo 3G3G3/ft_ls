@@ -30,7 +30,7 @@ char		*ft_getopt(char input, char *buf)
 	{
 		ft_putstr("ft_ls: illegal option -- ");
 		ft_putchar(input);
-		ft_putendl("\nusage: [-alrRt] [files ...]");
+		ft_putendl("\nusage: [-alrRti] [files ...]");
 		free(buf);
 		return (NULL);
 	}
@@ -64,7 +64,9 @@ char		*ft_parseopts(int argc, char **argv)
 	i = 1;
 	while (i < argc && argv[i][0] == '-' && opts != NULL)
 	{
-		opts = ft_readopt(argv[i], opts);
+		
+		if (ft_strcmp(argv[i], "--") != 0)
+			opts = ft_readopt(argv[i], opts);
 		i++;
 	}
 	return (opts);

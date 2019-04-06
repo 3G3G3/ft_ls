@@ -47,9 +47,9 @@ void			ft_readdir(t_filedata *fldt, char *opts)
 		return ;
 	fldt->path = path;
 	lvl0 = ft_readlvl0(fd, path, opts);
+	closedir(fd);
 	if (lvl0 == NULL)
 		return ;
-	closedir(fd);
 	ft_putfldtlst(lvl0, opts);
 	if (opts[1] == 'R')
 		ft_readlvln(lvl0, opts);
@@ -70,7 +70,7 @@ void			ft_readinput(t_list *dir_lst, char *opts, char ftype)
 			((((t_filedata *)(dir_lst->content))->rights)[0] == 'l' &&
 				ftype == 'd'))
 		{
-			if (p == 1)
+			if (p == 1 || (p == -1 && g_output == 1))
 			{
 				ft_putstr(((t_filedata *)(dir_lst->content))->input_name);
 				ft_putendl(":");

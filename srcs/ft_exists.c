@@ -29,6 +29,8 @@ int			ft_pexists(char *path, t_filedata *fldt)
 		ft_putendl(": No such file or directory");
 		fldt->abs_time = 0;
 		free(stats);
+		if (g_output < 1)
+			g_output = 1;
 		return (0);
 	}
 	fldt->abs_time = stats->st_mtime;

@@ -9,7 +9,8 @@ DEBUG_FLAGS = -g
 CFLAGS = -Wall -Werror -Wextra -I $(INC_PATH) -I $(LIBFT_PATH) -g3
 
 LIBFT = $(LIBFT_PATH)libft.a
-SRCS = ft_longopt.c		\
+SRCS = main.c				\
+		ft_longopt.c		\
 		ft_getstats.c		\
 		ft_tools.c			\
 		ft_putlfldt.c		\
@@ -23,8 +24,7 @@ SRCS = ft_longopt.c		\
 		ft_exists.c			\
 		ft_readtools.c		\
 		ft_readlvl.c		\
-		ft_read.c			\
-		main.c
+		ft_read.c
 
 SRC = $(addprefix $(SRC_PATH), $(SRCS))
 

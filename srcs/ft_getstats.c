@@ -111,6 +111,7 @@ t_filedata	*ft_getstat0(struct dirent *dir, char *fdir, char *opts)
 	if (lstat(bpath, stats) == -1)
 	{
 		ft_freestats(fldt, stats, bpath);
+		g_output = 2;
 		return (NULL);
 	}
 	fldt->path = bpath;
