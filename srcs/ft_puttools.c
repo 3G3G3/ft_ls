@@ -61,3 +61,10 @@ void		ft_getl(long n, char *buf)
 		i--;
 	}
 }
+
+void		ft_puttot(blksize_t nblocks)
+{
+	ft_putstr("total ");
+	ft_putllong(nblocks);
+	ft_putchar('\n');
+}

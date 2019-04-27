@@ -95,18 +95,13 @@ void		ft_putfldtlst(t_list *lst, char *opts)
 		sizes = ft_getsizes(lst, opts);
 		if (sizes == NULL)
 			return ;
-		if (opts[0] == 'l')
-		{
-			ft_putstr("total ");
-			ft_putllong(sizes->nblocks);
-			ft_putchar('\n');
-		}
 	}
 	else
 		sizes = NULL;
 	while (lst != NULL)
 	{
-		ft_putfldt(lst->content, opts, sizes);
+		if (ft_strcmp(((t_filedata *)(lst->content))->rights, "0") != '\0')
+			ft_putfldt(lst->content, opts, sizes);
 		lst = lst->next;
 	}
 	if (sizes != NULL)

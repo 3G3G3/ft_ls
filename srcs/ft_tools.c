@@ -24,10 +24,10 @@ char		*ft_buildpath(t_filedata *fldt)
 	char		*tmp1;
 	char		*tmp2;
 
-	tmp1 = ft_strjoin(fldt->dir, fldt->name);
+	tmp1 = ft_strjoin(fldt->dir, "/");
 	if (tmp1 == NULL)
 		return (NULL);
-	tmp2 = ft_strjoinfree(&tmp1, "/");
+	tmp2 = ft_strjoinfree(&tmp1, fldt->name);
 	if (tmp2 == NULL)
 	{
 		free(tmp1);
@@ -56,31 +56,4 @@ int			ft_getindexfirstpath(int argc, char **argv)
 	while (i < argc && argv[i][0] == '-')
 		i++;
 	return (i);
-}
-
-t_list		*ft_createelem(char *path)
-{
-	char			**tmp;
-	t_filedata		*fldt;
-	t_list			*res;
-
-	if ((fldt = (t_filedata *)ft_memalloc(sizeof(t_filedata))) == NULL)
-		return (NULL);
-	if ((res = ft_lstnew(fldt, sizeof(t_filedata))) == NULL)
-	{
-		ft_freefldt(&fldt);
-		return (NULL);
-	}
-	ft_freefldt(&fldt);
-	fldt = (t_filedata *)(res->content);
-	if ((tmp = ft_getdirnfile(path)) == NULL)
-		free(res);
-	fldt->dir = tmp[0];
-	fldt->name = tmp[1];
-	free(tmp);
-	if ((fldt->path = ft_strjoin(tmp[0], tmp[1])) == NULL ||
-			(fldt->input_name = ft_strdup(path)) == NULL ||
-			(fldt->rights = ft_strnew(10)) == NULL)
-		ft_freelst(&res);
-	return (res);
 }

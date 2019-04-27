@@ -12,6 +12,18 @@
 
 #include "ft_ls.h"
 
+void		ft_freeobjs(void *obj1, void *obj2, void *obj3, void *obj4)
+{
+	if (obj1 != NULL)
+		free(obj1);
+	if (obj2 != NULL)
+		free(obj2);
+	if (obj3 != NULL)
+		free(obj3);
+	if (obj4 != NULL)
+		free(obj4);
+}
+
 void		ft_freefldt(t_filedata **fldt)
 {
 	if (fldt == NULL || *fldt == NULL)
