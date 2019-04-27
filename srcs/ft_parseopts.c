@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 14:44:31 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 20:08:19 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/27 19:57:23 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char		*ft_getopt(char input, char *buf)
 	else if (input == 't')
 		buf[4] = 't';
 	else if (input == 'i')
-		buf[5] = 'i';
+		buf[6] = 'i';
 	else
 	{
 		ft_putstr("ft_ls: illegal option -- ");
@@ -57,8 +57,8 @@ char		*ft_parseopts(int argc, char **argv)
 	int		i;
 	char	*opts;
 
-	opts = (char *)ft_strnew(sizeof(char) * 6);
-	opts = ft_memset(opts, '-', 5);
+	opts = (char *)ft_strnew(sizeof(char) * 7);
+	opts = ft_memset(opts, '-', 6);
 	if (opts == NULL)
 		return (NULL);
 	i = 1;
@@ -68,5 +68,7 @@ char		*ft_parseopts(int argc, char **argv)
 			opts = ft_readopt(argv[i], opts);
 		i++;
 	}
+	if (opts != NULL)
+		opts[5] = 'n';
 	return (opts);
 }

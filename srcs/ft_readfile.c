@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_getstats.c                                      :+:      :+:    :+:   */
+/*   ft_readfile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/09 14:51:29 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 18:05:24 by grgauthi         ###   ########.fr       */
+/*   Created: 2019/04/27 19:15:50 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/04/27 20:09:39 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_filedata	*ft_convertstats(t_filedata *fldt, t_stat *stats, char *opts)
 	ft_convertrights(stats, fldt->rights);
 	if (opts[0] == 'l' && ft_getlongopt(fldt, stats, fldt->path) == NULL)
 		return (NULL);
-	if (opts[5] == 'i')
+	if (opts[6] == 'i')
 		fldt->ino = stats->st_ino;
 	fldt->nblocks = stats->st_blocks;
 	if ((fldt->rights)[0] == 'b' || (fldt->rights)[0] == 'c')

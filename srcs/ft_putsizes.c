@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 15:48:25 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/03/27 11:40:39 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/27 19:21:29 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_len		*ft_initlens(t_len *l)
 
 void		ft_cmplens(t_len *l, t_filedata *fldt, char *opts)
 {
-	if (opts[5] == 'i')
+	if (opts[6] == 'i')
 		l->lino = ft_maxsizet(l->lino, ft_uintlen(fldt->ino));
 	if (opts[0] == 'l')
 	{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsepath.c                                     :+:      :+:    :+:   */
+/*   ft_parseinputpath.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/09 15:35:33 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 20:23:48 by grgauthi         ###   ########.fr       */
+/*   Created: 2019/04/27 15:36:45 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/04/27 19:55:35 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char		*ft_parseinputparse(char *path)
 
 	if (ft_strcmp(path, "~") == 0 || ft_strcmp(path, ".") == 0
 	|| ft_strcmp(path, "..") == 0)
-		res = ft_strjoin(path, "/.");
+		res = ft_strjoin(path, "/");
 	else
 		res = ft_strdup(path);
 	return (res);
@@ -32,12 +32,13 @@ t_list		*ft_createemptyfile(void)
 	fldt = (t_filedata *)ft_memalloc(sizeof(t_filedata));
 	if (fldt == NULL)
 		return (NULL);
+	fldt->path = ft_strdup("\0");
 	fldt->name = ft_strdup("\0");
 	fldt->abs_time = 0;
 	fldt->rights = ft_strdup("0");
-	if (fldt->name == NULL || fldt->rights == NULL)
+	if (fldt->path == NULL || fldt->name == NULL || fldt->rights == NULL)
 	{
-		ft_freeobjs(fldt->name, fldt->rights, NULL, NULL);
+		ft_freeobjs(fldt->path, fldt->name, fldt->rights, NULL);
 		ft_freefldt(&fldt);
 		return (NULL);
 	}
@@ -75,13 +76,13 @@ void		ft_readpathinput_body(char *path, t_list **res, char *opts)
 
 	tmp = ft_newfile(path, opts);
 	if (tmp != NULL
-	&& (((t_filedata *)(tmp->content))->rights)[0] == 'd')
+		&& (((t_filedata *)(tmp->content))->rights)[0] == 'd')
 		ft_lstsortedadd(res + 2, tmp, opts);
 	else if (tmp == NULL)
 	{
 		tmp = ft_newunvalid(path);
 		if (tmp != NULL)
-			ft_lstsortedadd(res, tmp, "-----");
+			ft_lstsortedadd(res, tmp, "------");
 	}
 	else if (tmp != NULL)
 		ft_lstsortedadd(res + 1, tmp, opts);

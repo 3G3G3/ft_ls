@@ -6,16 +6,16 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 15:05:06 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 20:11:52 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/27 17:48:38 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int			ft_pasciisort(t_list *elem1, t_list *elem2)
+int			ft_nameasciisort(t_list *elem1, t_list *elem2)
 {
-	return (ft_strcmp(((t_filedata *)(elem1->content))->input_name,
-						((t_filedata *)(elem2->content))->input_name));
+	return (ft_strcmp(((t_filedata *)(elem1->content))->path,
+						((t_filedata *)(elem2->content))->path));
 }
 
 int			ft_asciisort(t_list *elem1, t_list *elem2)
@@ -39,8 +39,8 @@ void		ft_getsortfunc(char *opt, int (**f)(t_list *elem1, t_list *elem2))
 {
 	if (opt[4] == 't')
 		*f = ft_tmsort;
-	else if (opt[4] == 'i')
-		*f = ft_pasciisort;
+	else if (opt[5] == 'n')
+		*f = ft_nameasciisort;
 	else
 		*f = ft_asciisort;
 }

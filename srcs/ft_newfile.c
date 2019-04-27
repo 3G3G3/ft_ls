@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_newfile.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/27 15:35:04 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/04/27 20:04:32 by grgauthi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
 t_list			*ft_createfile(t_filedata *fldt)
@@ -41,11 +53,13 @@ t_filedata		*ft_getstats(char *path, char *opts)
 	}
 	if (lstat(path, stats) == -1)
 	{
-		g_output = 2;
+		g_output = (errno == 2) ? 1 : 2;
 		ft_freeobjs(stats, fldt->dir, fldt->name, fldt);
 		return (NULL);
 	}
 	fldt = ft_convertstats(fldt, stats, opts);
+	if ((fldt->rights)[0] == 'd')
+		fldt->path = ft_normpath(fldt->path);
 	free(stats);
 	return (fldt);
 }

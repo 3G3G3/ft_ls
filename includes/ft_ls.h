@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 14:41:58 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 19:37:36 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/27 16:03:42 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ char				*ft_normpath(char *path);
 
 char				*ft_buildpath(t_filedata *fldt);
 
-//char				**ft_getdirnfile(char *str);
-
 int					ft_getlastslash(char *str);
 
 t_list				*ft_createfile(t_filedata *fldt);
@@ -90,8 +88,6 @@ t_len				*ft_getsizes(t_list *lst, char *opts);
 
 void				ft_puttot(blksize_t nblocks);
 
-//void				ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes);
-
 void				ft_putunvalid(t_list *lst);
 
 void				ft_putfldtlst(t_list *lst, char *opts);
@@ -101,7 +97,7 @@ t_filedata			*ft_getlongopt(t_filedata *fldt, t_stat *stats, char *path);
 void				ft_convertrights(t_stat *stats, char *rights);
 
 t_filedata			*ft_convertstats(t_filedata *fldt,
-										t_stat *stats, char *opts);
+						t_stat *stats, char *opts);
 
 t_filedata			*ft_getstat(char *path, char *opts);
 
@@ -117,8 +113,6 @@ char				*ft_parseopts(int argc, char **argv);
 
 t_list				**ft_readpathinput(int argc, char **argv, char *opts);
 
-//t_list				*ft_exists(t_list *lst);
-
 t_list				*ft_newunvalid(char *path);
 
 t_list				*ft_newfile(char *path, char *opts);
@@ -126,7 +120,7 @@ t_list				*ft_newfile(char *path, char *opts);
 DIR					*ft_opendir(char *path);
 
 t_list				*ft_readlvl0(DIR *fd_dir, char *fdir, char *opts,
-								blksize_t *nblocks);
+						blksize_t *nblocks);
 
 void				ft_browselvln(t_list *files, char *opts);
 

@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_read.c                                          :+:      :+:    :+:   */
+/*   ft_browsedir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/23 16:13:46 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 20:23:57 by grgauthi         ###   ########.fr       */
+/*   Created: 2019/04/27 15:43:52 by grgauthi          #+#    #+#             */
+/*   Updated: 2019/04/27 18:03:37 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_list		*ft_exploredirinit(t_filedata *fldt, char *opts, blksize_t *nblocks)
+t_list			*ft_exploredirinit(t_filedata *fldt, char *opts,
+									blksize_t *nblocks)
 {
 	DIR			*fd;
 	t_list		*lvl0;
@@ -36,9 +37,6 @@ void			ft_exploredir(t_filedata *fldt, char *opts, size_t iput)
 	t_list		*lvl0;
 	blksize_t	nblocks;
 
-	lvl0 = ft_exploredirinit(fldt, opts, &nblocks);
-	if (lvl0 == NULL)
-		return ;
 	if (iput == 2)
 		ft_putchar('\n');
 	if (iput > 0)
@@ -46,6 +44,9 @@ void			ft_exploredir(t_filedata *fldt, char *opts, size_t iput)
 		ft_putstr(fldt->path);
 		ft_putendl(":");
 	}
+	lvl0 = ft_exploredirinit(fldt, opts, &nblocks);
+	if (lvl0 == NULL)
+		return ;
 	if (opts[0] == 'l' && (fldt->rights)[0] == 'd')
 		ft_puttot(nblocks);
 	ft_putfldtlst(lvl0, opts);
@@ -68,11 +69,12 @@ void			ft_browseinput(t_list *dir_lst, char *opts, size_t iput)
 	size_t		i;
 	size_t		ndir;
 
+	opts[5] = '-';
 	ndir = ft_lstlen(dir_lst) - 1;
 	i = 0;
 	while (dir_lst != NULL)
 	{
-		if (ft_strcmp(((t_filedata *)(dir_lst->content))->rights, "0") != '\0')
+		if (ft_strcmp(((t_filedata *)(dir_lst->content))->rights, "0") != 0)
 		{
 			ft_exploredir((t_filedata *)(dir_lst->content), opts,
 				ft_infoput(iput - 2, ndir, i));

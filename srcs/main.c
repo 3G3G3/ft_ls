@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 16:17:51 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 19:58:16 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/27 17:08:31 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,3 @@ int			main(int argc, char **argv)
 	free(parsed_input);
 	return (g_output);
 }
-
-
-// check affigage date
-/*
-** fuites mémoires
-*/

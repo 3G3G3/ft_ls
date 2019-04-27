@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/09 15:03:26 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 18:49:36 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/27 20:21:28 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes)
 {
 	char	*buf;
 
-	if (opts[5] == 'i')
+	if (opts[6] == 'i')
 	{
 		write(1, "                   ", sizes->lino - ft_uintlen(fldt->ino));
 		ft_putuint(fldt->ino);
@@ -77,7 +77,7 @@ void		ft_putfldt(t_filedata *fldt, char *opts, t_len *sizes)
 		write(1, buf, ft_getbufsize(sizes));
 		free(buf);
 	}
-	ft_putstr(fldt->name);
+	(opts[5] == 'n') ? ft_putstr(fldt->path) : ft_putstr(fldt->name);
 	if ((fldt->rights)[0] == 'l' && (opts)[0] == 'l')
 	{
 		ft_putstr(" -> ");
@@ -90,7 +90,7 @@ void		ft_putfldtlst(t_list *lst, char *opts)
 {
 	t_len		*sizes;
 
-	if (opts[0] == 'l' || opts[5] == 'i')
+	if (opts[0] == 'l' || opts[6] == 'i')
 	{
 		sizes = ft_getsizes(lst, opts);
 		if (sizes == NULL)

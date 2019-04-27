@@ -6,7 +6,7 @@
 /*   By: grgauthi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/23 17:09:46 by grgauthi          #+#    #+#             */
-/*   Updated: 2019/04/06 18:32:35 by grgauthi         ###   ########.fr       */
+/*   Updated: 2019/04/27 19:52:40 by grgauthi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int				ft_toexplore(t_list *files, char *opts)
 {
 	if (((ft_strcmp(((t_filedata *)(files->content))->name, ".") == 0
-	|| ft_strcmp(((t_filedata *)(files->content))->name, "..") == 0))
-	|| (opts[2] == '-' && (((t_filedata *)(files->content))->name)[0] == '.'))
+			|| ft_strcmp(((t_filedata *)(files->content))->name, "..") == 0))
+		|| (opts[2] == '-'
+			&& (((t_filedata *)(files->content))->name)[0] == '.'))
 		return (-1);
 	return (1);
 }
